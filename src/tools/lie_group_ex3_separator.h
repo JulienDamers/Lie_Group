@@ -29,7 +29,7 @@
         ibex::Function* fdom;
         ibex::SepFwdBwd* sepPhi;
         ibex::SepFwdBwd* sepDom;
-        ibex::SepInter* fullSep;
+        ibex::Sep* fullSep;
 
 
     };
