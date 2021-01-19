@@ -96,5 +96,27 @@ target_compile_options(example_4_article PUBLIC ${TUBEX_CXX_FLAGS})
 target_include_directories(example_4_article PUBLIC ${TUBEX_INCLUDE_DIRS} ${PKG_CAPD_INCLUDE_DIRS})
 target_link_libraries(example_4_article ${LIBS})
 
+add_executable(example_1_cn_article ${SRC_EXAMPLE1_CN_ARTICLE})
+target_compile_options(example_1_cn_article PUBLIC ${TUBEX_CXX_FLAGS})
+target_include_directories(example_1_cn_article PUBLIC ${TUBEX_INCLUDE_DIRS} ${PKG_CAPD_INCLUDE_DIRS})
+target_link_libraries(example_1_cn_article PUBLIC ${LIBS})
+
+add_executable(example_2_cn_article ${SRC_EXAMPLE2_CN_ARTICLE})
+target_compile_options(example_2_cn_article PUBLIC ${TUBEX_CXX_FLAGS})
+target_include_directories(example_2_cn_article PUBLIC ${TUBEX_INCLUDE_DIRS} ${PKG_CAPD_INCLUDE_DIRS})
+target_link_libraries(example_2_cn_article PUBLIC ${LIBS})
+
+add_executable(example_3_cn_article ${SRC_EXAMPLE3_CN_ARTICLE})
+target_compile_options(example_3_cn_article PUBLIC ${TUBEX_CXX_FLAGS})
+target_include_directories(example_3_cn_article PUBLIC ${TUBEX_INCLUDE_DIRS} ${PKG_CAPD_INCLUDE_DIRS})
+target_link_libraries(example_3_cn_article PUBLIC ${LIBS})
+
+
+add_executable(example_4_cn_article ${SRC_EXAMPLE4_CN_ARTICLE})
+target_compile_options(example_4_cn_article PUBLIC ${TUBEX_CXX_FLAGS})
+target_include_directories(example_4_cn_article PUBLIC ${TUBEX_INCLUDE_DIRS} ${PKG_CAPD_INCLUDE_DIRS})
+target_link_libraries(example_4_cn_article PUBLIC ${LIBS})
+
+
 
 
