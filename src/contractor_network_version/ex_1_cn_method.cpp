@@ -22,7 +22,7 @@ int main(int argc, char* argv[])
 
     Tube::enable_syntheses();
 
-    Interval domain(0,8);
+    Interval domain(0,4);
     double timestep = 0.01;
     IntervalVector x0({{0,0},{1,1}});
     Function f("x","y","(1;-y)");
@@ -60,7 +60,7 @@ int main(int argc, char* argv[])
     ctc_cn ctcCn_in(&cn_in,&box_in,&intermediary_iv_in);
 
     SepCtcPair sep(ctcCn_in,ctcCn_out);
-    SepProj proj(sep,Interval(0,4),epsilon);
+    SepProj sep_proj(sep,Interval(0,4),epsilon);
 
     IntervalVector map({{0,4},{-0.2,4}});
 
@@ -72,58 +72,16 @@ int main(int argc, char* argv[])
 
 
     auto start = chrono::steady_clock::now();
-
-    // Separator Version
-
-    s.push(map);
-    while ( !s.empty())
-    {
-        IntervalVector current_box = s.top();
-        s.pop();
-        IntervalVector boxIn = current_box;
-        IntervalVector boxOut = current_box;
-        proj.separate(boxIn,boxOut);
-        if (boxOut[0].is_empty() && boxOut[1].is_empty())
-        {
-            drawBox(current_box,"k[b]");
-        }
-        else if(boxIn[0].is_empty() && boxIn[1].is_empty())
-        {
-            drawBox(current_box, "k[r]");
-        }
-        else
-        {
-            if (current_box.max_diam()>epsilon)
-            {
-                int i = current_box.extr_diam_index(false);
-                pair<IntervalVector, IntervalVector> p = current_box.bisect(i);
-                s.push(p.first);
-                s.push(p.second);
-            }
-            else
-            {
-                drawBox(current_box,"k[y]");
-            }
-
-        }
-
-    }
-
+    sivia(map,sep_proj,epsilon);
     auto stop = chrono::steady_clock::now();
+
     cout << "elapsed time: " << chrono::duration_cast<chrono::milliseconds>(stop - start).count() << " ms" << endl;
     fig.add_tube(&a,"reference",0,1);
-    drawBox(X0,"g[]");
-    fig.axis_limits(map);
+    drawBox(X0,"g[g]");
     fig.show();
+    fig.axis_limits(map);
 
-
-
-
-
-
-
-
-
+    endDrawing();
 
 
 }
