@@ -47,9 +47,6 @@ int main(int argc, char* argv[])
     SepProj sepProj(fullSep,proj,0.01);
 
 
-
-
-
     beginDrawing();
     VIBesFigMap fig("Example 3");
     fig.set_properties(50,50,800,800);
