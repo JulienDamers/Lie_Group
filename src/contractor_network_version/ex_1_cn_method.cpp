@@ -77,7 +77,7 @@ int main(int argc, char* argv[])
 
     cout << "elapsed time: " << chrono::duration_cast<chrono::milliseconds>(stop - start).count() << " ms" << endl;
     fig.add_tube(&a,"reference",0,1);
-    drawBox(X0,"g[g]");
+    drawBox(X0,"g[]");
     fig.show();
     fig.axis_limits(map);
 

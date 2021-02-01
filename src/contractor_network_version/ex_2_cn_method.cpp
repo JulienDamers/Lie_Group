@@ -86,7 +86,7 @@ int main(int argc, char* argv[])
     sivia(map,sep_proj,epsilon);
     auto stop = chrono::steady_clock::now();
     cout << "elapsed time: " << chrono::duration_cast<chrono::milliseconds>(stop - start).count() << " ms" << endl;
-    drawBox(X0, "g[g]");
+    drawBox(X0, "g[]");
     fig.show();
     fig.axis_limits(background_box);
     endDrawing();

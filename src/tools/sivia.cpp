@@ -41,7 +41,7 @@ void sivia(IntervalVector& map, SepProj fullSep, double epsilon)
             }
             else
             {
-                drawBox(box[0].lb(),box[0].ub(),box[1].lb(),box[1].ub(),"w[w]");
+                drawBox(box[0].lb(),box[0].ub(),box[1].lb(),box[1].ub(),"k[w]");
 
             }
         }
