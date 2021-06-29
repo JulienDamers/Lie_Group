@@ -5,14 +5,14 @@
 #include <iostream>
 #include <cstdlib>
 #include "tools.h"
-#include "tubex.h"
-#include "tubex-capd.h"
+#include "codac.h"
+#include "codac-capd.h"
 #include "chrono"
 
 
 
 using namespace std;
-using namespace tubex;
+using namespace codac;
 using namespace ibex;
 using namespace vibes;
 using namespace pyibex;
@@ -32,7 +32,7 @@ int main(int argc, char* argv[])
     TubeVector a = CAPD_integrateODE(domain,f,x0,timestep);
     cout << "Reference generated " << a << endl;
 
-    double epsilon = 0.01;
+    double epsilon = 0.1;
 
     IntervalVector X0(3);
     X0[0] = Interval(-0.1,0.1);
@@ -57,7 +57,7 @@ int main(int argc, char* argv[])
 
     drawBox(x0[0].lb(),x0[0].ub(),x0[1].lb(),x0[1].ub(),"g[g]");
     ColorMap myColorMap(InterpolMode::RGB);
-    vector<tubex::rgb> colors;
+    vector<codac::rgb> colors;
     fig.add_tube(&a,"reference",0,1);
     fig.set_tube_color(&a,"k[k]");
     fig.set_tube_max_disp_slices(20000);

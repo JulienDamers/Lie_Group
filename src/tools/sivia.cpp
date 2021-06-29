@@ -5,7 +5,7 @@
 #include "sivia.h"
 
 using namespace ibex;
-using namespace tubex;
+using namespace codac;
 using namespace vibes;
 using namespace pyibex;
 

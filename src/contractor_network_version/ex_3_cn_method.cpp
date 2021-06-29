@@ -2,9 +2,9 @@
 // Created by julien-damers on 1/18/21.
 //
 
-#include "tubex.h"
-#include "tubex-rob.h"
-#include "tubex-capd.h"
+#include "codac.h"
+#include "codac-rob.h"
+#include "codac-capd.h"
 #include "tools.h"
 #include "chrono"
 #include "ctc_cn.h"
@@ -12,7 +12,7 @@
 
 
 using namespace std;
-using namespace tubex;
+using namespace codac;
 using namespace ibex;
 using namespace vibes;
 using namespace pyibex;
@@ -23,11 +23,20 @@ int main(int argc, char* argv[])
     Tube::enable_syntheses();
 
     Interval domain(0, 4);
-    tubex::Function f("x","y","(x^3+x*y^2-x+y; y^3+x^2*y-x-y)");
+    codac::Function f("x","y","(x^3+x*y^2-x+y; y^3+x^2*y-x-y)");
     double timestep = 0.001;
     IntervalVector x0({{0.5, 0.5},
                        {0, 0}});
-    TubeVector a = CAPD_integrateODE(domain,f,x0,timestep);
+
+
+    // Create the reference curve using Lohner contractor
+    TubeVector a(domain, timestep,2);
+    CtcLohner ctc_a(f);
+    a.set(x0,0.);
+    ctc_a.contract(a);
+
+    // Create the reference curve using CAPD
+    //TubeVector a = CAPD_integrateODE(domain,f,x0,timestep);
     cout << a << endl;
 
     double epsilon = 0.1;
@@ -43,7 +52,7 @@ int main(int argc, char* argv[])
     ibex::CtcFwdBwd ctc_dom_verif(f_dom, Interval::POS_REALS);
     ibex::CtcNotIn ctc_dom_verif_not(f_dom, Interval::POS_REALS);
     CtcUnion ctc_full(ctc_phi_not,ctc_dom_verif_not);
-    tubex::CtcEval ctc_eval;
+    codac::CtcEval ctc_eval;
 
 
     // Complete version

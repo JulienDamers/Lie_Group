@@ -3,9 +3,9 @@
 //
 
 
-#include "tubex.h"
-#include "tubex-rob.h"
-#include "tubex-capd.h"
+#include "codac.h"
+#include "codac-rob.h"
+#include "codac-capd.h"
 #include "tools.h"
 #include "chrono"
 #include "ctc_cn.h"
@@ -13,7 +13,7 @@
 
 
 using namespace std;
-using namespace tubex;
+using namespace codac;
 using namespace ibex;
 using namespace vibes;
 using namespace pyibex;
@@ -24,7 +24,7 @@ int main(int argc, char* argv[])
     Tube::enable_syntheses();
 
     Interval domain(0,15);
-    tubex::TFunction f("x","y","z","x4","(cos(z); sin(z); sin(0.4*x4); 1)");
+    codac::TFunction f("x","y","z","x4","(cos(z); sin(z); sin(0.4*x4); 1)");
     double timestep = 0.001;
     IntervalVector x0(4);
     x0.init(Interval(0,0));
@@ -51,7 +51,7 @@ int main(int argc, char* argv[])
     ibex::CtcFwdBwd ctc_phi_simp(phi_simplified,X0_simplified);
     ibex::CtcNotIn ctc_phi_simp_not(phi_simplified,X0_simplified);
 
-    tubex::CtcEval ctc_eval;
+    codac::CtcEval ctc_eval;
 
     // simplified version
     ContractorNetwork cn_simplified_out;

@@ -2,9 +2,9 @@
 // Created by julien-damers on 1/14/21.
 //
 
-#include "tubex.h"
-#include "tubex-rob.h"
-#include "tubex-capd.h"
+#include "codac.h"
+#include "codac-rob.h"
+#include "codac-capd.h"
 #include "tools.h"
 #include "chrono"
 #include "ctc_cn.h"
@@ -12,7 +12,7 @@
 
 
 using namespace std;
-using namespace tubex;
+using namespace codac;
 using namespace ibex;
 using namespace vibes;
 using namespace pyibex;
@@ -24,14 +24,14 @@ int main(int argc, char* argv[])
 
     double epsilon = 0.1;
 
-    tubex::CtcFunction ctc_plus(Function("a", "b", "c", "a+b-c"));
-    tubex::CtcFunction ctc_a(Function("t", "a[2]", "(t-a[0];1-cos(t)-a[1])"));
+    codac::CtcFunction ctc_plus(Function("a", "b", "c", "a+b-c"));
+    codac::CtcFunction ctc_a(Function("t", "a[2]", "(t-a[0];1-cos(t)-a[1])"));
     IntervalVector X0({{0, 1},
                        {0, 1}});
     ibex::Function phi("x[3]", "w[2]", "z[2]", "(w[0]; x[1] - z[1] + w[1])");
     ibex::CtcFwdBwd ctc_phi(phi, X0);
     ibex::CtcNotIn ctc_phi_not(phi, X0);
-    tubex::CtcEval ctc_eval;
+    codac::CtcEval ctc_eval;
 
 
     // Complete version

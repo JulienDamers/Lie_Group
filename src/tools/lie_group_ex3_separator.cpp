@@ -4,7 +4,7 @@
 
 #include "lie_group_ex3_separator.h"
 
-using namespace tubex;
+using namespace codac;
 using namespace ibex;
 using namespace std;
 

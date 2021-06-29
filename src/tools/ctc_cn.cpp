@@ -4,7 +4,7 @@
 #include "ctc_cn.h"
 
 using namespace ibex;
-using namespace tubex;
+using namespace codac;
 using namespace std;
 
 ctc_cn::ctc_cn(ContractorNetwork* cn, IntervalVector* box_to_contract_cn,

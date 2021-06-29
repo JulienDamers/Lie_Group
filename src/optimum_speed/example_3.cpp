@@ -5,14 +5,14 @@
 #include <iostream>
 #include <cstdlib>
 #include "tools.h"
-#include "tubex.h"
-#include "tubex-capd.h"
+#include "codac.h"
+#include "codac-capd.h"
 #include "chrono"
 
 
 
 using namespace std;
-using namespace tubex;
+using namespace codac;
 using namespace ibex;
 using namespace vibes;
 using namespace pyibex;
@@ -37,7 +37,7 @@ int main(int argc, char* argv[])
     TubeVector a = CAPD_integrateODE(domain,f,x0,timestep);
     cout << "Reference generated " << a << endl;
 
-    double epsilon = 0.01; // precision of the sivia
+    double epsilon = 0.1; // precision of the sivia
 
     IntervalVector X0({{0.4,0.6},{-0.1,0.1}}); // Starting box constraint
     IntervalVector x({{-1.2,1.2},{-1.2,1.2}}); // Space to be explored

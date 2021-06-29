@@ -5,14 +5,14 @@
 #include <cstdlib>
 #include <random>
 #include "tools.h"
-#include "tubex.h"
-#include "tubex-capd.h"
+#include "codac.h"
+#include "codac-capd.h"
 
 #include "chrono"
 
 using namespace std;
 using namespace ibex;
-using namespace tubex;
+using namespace codac;
 using namespace vibes;
 using namespace pyibex;
 
@@ -32,7 +32,7 @@ int main (int argc, char* argv[])
     IntervalVector proj(1);
     proj[0] = Interval(0,5);
     SepProj sepProj(fullSep,proj,0.01);
-    double epsilon = 0.01;
+    double epsilon = 0.1;
 
     beginDrawing();
     // Visuals initialization

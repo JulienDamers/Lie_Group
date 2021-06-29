@@ -6,18 +6,18 @@
 #define PAPER_LIE_GROUP_CTC_CN_H
 
 #include "ibex.h"
-#include "tubex.h"
+#include "codac.h"
 
     class ctc_cn : public ibex::Ctc
     {
         public:
-            ctc_cn(tubex::ContractorNetwork* cn, ibex::IntervalVector* box_to_contract_cn,
+            ctc_cn(codac::ContractorNetwork* cn, ibex::IntervalVector* box_to_contract_cn,
                    std::vector<ibex::IntervalVector*>* intermediary_iv = new std::vector<ibex::IntervalVector*>(),
                    std::vector<ibex::Interval*>* intermediary_i = new std::vector<ibex::Interval*>());
             void contract(ibex::IntervalVector& x);
 
         private:
-            tubex::ContractorNetwork* m_cn;
+            codac::ContractorNetwork* m_cn;
             ibex::IntervalVector* m_box_to_contract_cn;
             std::vector<ibex::IntervalVector*>* m_intermediary_iv;
             std::vector<ibex::Interval*>* m_intermediary_i;
