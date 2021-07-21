@@ -16,7 +16,7 @@ find_package(IBEX REQUIRED)
 ibex_init_common() # IBEX should have installed this function
 message(STATUS "Found IBEX version ${IBEX_VERSION}")
 
-# Adding Tubex
+# Adding Codac
 find_package(CODAC REQUIRED)
 message(STATUS "Found Codac version ${CODAC_VERSION}")
 
@@ -31,14 +31,24 @@ pkg_search_module(PKG_CAPD REQUIRED  capd capd-gui mpcapd mpcapd-gui capdRedHom 
 message(STATUS "Found CAPD")
 include_directories(${PKG_CAPD_INCLUDE_DIRS})
 
+###########################################################
+# Ipegenerator
+find_package(ipegenerator REQUIRED)
+include_directories(${IPEGENERATOR_INCLUDE_DIRS})
+
 
 ## Source files and headers definition
 ###########################################################
 # src bundles for executables
-set (SRC_EXAMPLE1_ARTICLE "src/optimum_speed/example_1.cpp")
-set (SRC_EXAMPLE2_ARTICLE "src/optimum_speed/example_2.cpp")
-set (SRC_EXAMPLE3_ARTICLE "src/optimum_speed/example_3.cpp")
-set (SRC_EXAMPLE4_ARTICLE "src/optimum_speed/example_4.cpp")
+set (SRC_EXAMPLE1_VIBES "src/optimum_speed/example_1.cpp")
+set (SRC_EXAMPLE2_VIBES "src/optimum_speed/example_2.cpp")
+set (SRC_EXAMPLE3_VIBES "src/optimum_speed/example_3.cpp")
+set (SRC_EXAMPLE4_VIBES "src/optimum_speed/example_4.cpp")
+
+set (SRC_EXAMPLE1_ARTICLE "src/optimum_speed/example_1_article_form.cpp")
+set (SRC_EXAMPLE2_ARTICLE "src/optimum_speed/example_2_article_form.cpp")
+set (SRC_EXAMPLE3_ARTICLE "src/optimum_speed/example_3_article_form.cpp")
+set (SRC_EXAMPLE4_ARTICLE "src/optimum_speed/example_4_article_form.cpp")
 
 set (SRC_EXAMPLE1_CN_ARTICLE "src/contractor_network_version/ex_1_cn_method.cpp")
 set (SRC_EXAMPLE2_CN_ARTICLE "src/contractor_network_version/ex_2_cn_method.cpp")
@@ -61,8 +71,7 @@ list(APPEND SRC_TOOLS_LIB
 
 
 
-set(LIBS ${CODAC_LIBRARIES} Ibex::ibex ${CODAC_LIBRARIES} ${PKG_CAPD_LDFLAGS})
-#set(LIBS ${CODAC_LIBRARIES} ${IBEX_LIBRARIES} ${CODAC_LIBRARIES} ${PKG_CAPD_LDFLAGS})
+set(LIBS ${IPEGENERATOR_LIBRARIES} ${CODAC_LIBRARIES} Ibex::ibex ${CODAC_LIBRARIES} ${PKG_CAPD_LDFLAGS})
 
 ## Executables/Libs creation
 ###########################################################
@@ -72,33 +81,31 @@ set(LIBRARY_OUTPUT_PATH ${CMAKE_CURRENT_BINARY_DIR}/../lib)
 include_directories("src/tools")
 add_library(tools ${SRC_TOOLS_LIB})
 target_include_directories(tools PUBLIC "src/tools" ${CODAC_INCLUDE_DIRS})
-target_link_libraries(tools PUBLIC ${CODAC_LIBRARIES} Ibex::ibex ${CODAC_LIBRARIES})
-#target_include_directories(tools PUBLIC "src/tools" ${CODAC_INCLUDE_DIRS} ${IBEX_INCLUDE_DIRS})
-#target_link_libraries(tools PUBLIC ${CODAC_LIBRARIES} ${IBEX_LIBRARIES} ${CODAC_LIBRARIES})
+target_link_libraries(tools PUBLIC ${CODAC_LIBRARIES} Ibex::ibex ${CODAC_LIBRARIES} ${IPEGENERATOR_LIBRARIES})
 
 
 set(EXECUTABLE_OUTPUT_PATH bin)
 
-set(LIBS tools ${LIBS} )
-add_executable(example_1_article ${SRC_EXAMPLE1_ARTICLE})
-target_compile_options(example_1_article PUBLIC ${CODAC_CXX_FLAGS})
-target_include_directories(example_1_article PUBLIC ${CODAC_INCLUDE_DIRS} ${PKG_CAPD_INCLUDE_DIRS})
-target_link_libraries(example_1_article PUBLIC ${LIBS})
+set(LIBS   tools ${LIBS} )
+add_executable(example_1_vibes ${SRC_EXAMPLE1_VIBES})
+target_compile_options(example_1_vibes PUBLIC ${CODAC_CXX_FLAGS})
+target_include_directories(example_1_vibes PUBLIC ${CODAC_INCLUDE_DIRS} ${PKG_CAPD_INCLUDE_DIRS})
+target_link_libraries(example_1_vibes PUBLIC ${LIBS})
 
-add_executable(example_2_article ${SRC_EXAMPLE2_ARTICLE})
-target_compile_options(example_2_article PUBLIC ${CODAC_CXX_FLAGS})
-target_include_directories(example_2_article PUBLIC ${CODAC_INCLUDE_DIRS} ${PKG_CAPD_INCLUDE_DIRS})
-target_link_libraries(example_2_article ${LIBS})
+add_executable(example_2_vibes ${SRC_EXAMPLE2_VIBES})
+target_compile_options(example_2_vibes PUBLIC ${CODAC_CXX_FLAGS})
+target_include_directories(example_2_vibes PUBLIC ${CODAC_INCLUDE_DIRS} ${PKG_CAPD_INCLUDE_DIRS})
+target_link_libraries(example_2_vibes ${LIBS})
 
-add_executable(example_3_article ${SRC_EXAMPLE3_ARTICLE})
-target_compile_options(example_3_article PUBLIC ${CODAC_CXX_FLAGS})
-target_include_directories(example_3_article PUBLIC ${CODAC_INCLUDE_DIRS} ${PKG_CAPD_INCLUDE_DIRS})
-target_link_libraries(example_3_article ${LIBS})
+add_executable(example_3_vibes ${SRC_EXAMPLE3_VIBES})
+target_compile_options(example_3_vibes PUBLIC ${CODAC_CXX_FLAGS})
+target_include_directories(example_3_vibes PUBLIC ${CODAC_INCLUDE_DIRS} ${PKG_CAPD_INCLUDE_DIRS})
+target_link_libraries(example_3_vibes ${LIBS})
 
-add_executable(example_4_article ${SRC_EXAMPLE4_ARTICLE})
-target_compile_options(example_4_article PUBLIC ${CODAC_CXX_FLAGS})
-target_include_directories(example_4_article PUBLIC ${CODAC_INCLUDE_DIRS} ${PKG_CAPD_INCLUDE_DIRS})
-target_link_libraries(example_4_article ${LIBS})
+add_executable(example_4_vibes ${SRC_EXAMPLE4_VIBES})
+target_compile_options(example_4_vibes PUBLIC ${CODAC_CXX_FLAGS})
+target_include_directories(example_4_vibes PUBLIC ${CODAC_INCLUDE_DIRS} ${PKG_CAPD_INCLUDE_DIRS})
+target_link_libraries(example_4_vibes ${LIBS})
 
 add_executable(example_1_cn_article ${SRC_EXAMPLE1_CN_ARTICLE})
 target_compile_options(example_1_cn_article PUBLIC ${CODAC_CXX_FLAGS})
@@ -122,5 +129,22 @@ target_include_directories(example_4_cn_article PUBLIC ${CODAC_INCLUDE_DIRS} ${P
 target_link_libraries(example_4_cn_article PUBLIC ${LIBS})
 
 
+add_executable(example_1_article ${SRC_EXAMPLE1_ARTICLE})
+target_compile_options(example_1_article PUBLIC ${CODAC_CXX_FLAGS})
+target_include_directories(example_1_article PUBLIC ${CODAC_INCLUDE_DIRS} ${PKG_CAPD_INCLUDE_DIRS})
+target_link_libraries(example_1_article PUBLIC ${LIBS})
 
+add_executable(example_2_article ${SRC_EXAMPLE2_ARTICLE})
+target_compile_options(example_2_article PUBLIC ${CODAC_CXX_FLAGS})
+target_include_directories(example_2_article PUBLIC ${CODAC_INCLUDE_DIRS} ${PKG_CAPD_INCLUDE_DIRS})
+target_link_libraries(example_2_article PUBLIC ${LIBS})
 
+add_executable(example_3_article ${SRC_EXAMPLE3_ARTICLE})
+target_compile_options(example_2_article PUBLIC ${CODAC_CXX_FLAGS})
+target_include_directories(example_3_article PUBLIC ${CODAC_INCLUDE_DIRS} ${PKG_CAPD_INCLUDE_DIRS})
+target_link_libraries(example_3_article PUBLIC ${LIBS})
+
+add_executable(example_4_article ${SRC_EXAMPLE4_ARTICLE})
+target_compile_options(example_2_article PUBLIC ${CODAC_CXX_FLAGS})
+target_include_directories(example_4_article PUBLIC ${CODAC_INCLUDE_DIRS} ${PKG_CAPD_INCLUDE_DIRS})
+target_link_libraries(example_4_article PUBLIC ${LIBS})
