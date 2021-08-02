@@ -22,6 +22,7 @@ int main(int argc, char* argv[])
 
     Tube::enable_syntheses();
 
+
     Interval domain(0,15);
     double timestep = 0.001;
     IntervalVector x0(4);
@@ -31,7 +32,7 @@ int main(int argc, char* argv[])
     TubeVector a = CAPD_integrateODE(domain,f,x0,timestep);
     cout << "Reference generated " << a << endl;
 
-    double epsilon = 0.1;
+    double epsilon = 0.01;
 
     IntervalVector X0(3);
     X0[0] = Interval(-0.1,0.1);
@@ -41,6 +42,8 @@ int main(int argc, char* argv[])
     lie_group_ex4_separator fullSep(&a,&X0);
 
     IntervalVector x({{-4,4},{-4,4}});
+
+
 
     IntervalVector proj({{-6,6},{0,15}});
     SepProj sepProj(fullSep,proj,0.001);

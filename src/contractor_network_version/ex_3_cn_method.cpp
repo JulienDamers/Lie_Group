@@ -39,7 +39,7 @@ int main(int argc, char* argv[])
     //TubeVector a = CAPD_integrateODE(domain,f,x0,timestep);
     cout << a << endl;
 
-    double epsilon = 0.1;
+    double epsilon = 0.01;
 
     IntervalVector X0({{0.4, 0.6},
                        {-0.1, 0.1}});

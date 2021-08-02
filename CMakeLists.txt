@@ -87,6 +87,13 @@ target_link_libraries(tools PUBLIC ${CODAC_LIBRARIES} Ibex::ibex ${CODAC_LIBRARI
 set(EXECUTABLE_OUTPUT_PATH bin)
 
 set(LIBS   tools ${LIBS} )
+
+########################################################################################################################
+# Vibes version
+########################################################################################################################
+
+# optimum speed mode
+
 add_executable(example_1_vibes ${SRC_EXAMPLE1_VIBES})
 target_compile_options(example_1_vibes PUBLIC ${CODAC_CXX_FLAGS})
 target_include_directories(example_1_vibes PUBLIC ${CODAC_INCLUDE_DIRS} ${PKG_CAPD_INCLUDE_DIRS})
@@ -107,6 +114,8 @@ target_compile_options(example_4_vibes PUBLIC ${CODAC_CXX_FLAGS})
 target_include_directories(example_4_vibes PUBLIC ${CODAC_INCLUDE_DIRS} ${PKG_CAPD_INCLUDE_DIRS})
 target_link_libraries(example_4_vibes ${LIBS})
 
+# CN mode
+
 add_executable(example_1_cn_article ${SRC_EXAMPLE1_CN_ARTICLE})
 target_compile_options(example_1_cn_article PUBLIC ${CODAC_CXX_FLAGS})
 target_include_directories(example_1_cn_article PUBLIC ${CODAC_INCLUDE_DIRS} ${PKG_CAPD_INCLUDE_DIRS})
@@ -122,11 +131,14 @@ target_compile_options(example_3_cn_article PUBLIC ${CODAC_CXX_FLAGS})
 target_include_directories(example_3_cn_article PUBLIC ${CODAC_INCLUDE_DIRS} ${PKG_CAPD_INCLUDE_DIRS})
 target_link_libraries(example_3_cn_article PUBLIC ${LIBS})
 
-
 add_executable(example_4_cn_article ${SRC_EXAMPLE4_CN_ARTICLE})
 target_compile_options(example_4_cn_article PUBLIC ${CODAC_CXX_FLAGS})
 target_include_directories(example_4_cn_article PUBLIC ${CODAC_INCLUDE_DIRS} ${PKG_CAPD_INCLUDE_DIRS})
 target_link_libraries(example_4_cn_article PUBLIC ${LIBS})
+
+########################################################################################################################
+# Ipegenerator version
+########################################################################################################################
 
 
 add_executable(example_1_article ${SRC_EXAMPLE1_ARTICLE})
@@ -148,3 +160,18 @@ add_executable(example_4_article ${SRC_EXAMPLE4_ARTICLE})
 target_compile_options(example_2_article PUBLIC ${CODAC_CXX_FLAGS})
 target_include_directories(example_4_article PUBLIC ${CODAC_INCLUDE_DIRS} ${PKG_CAPD_INCLUDE_DIRS})
 target_link_libraries(example_4_article PUBLIC ${LIBS})
+
+
+########################################################################################################################
+# Comparisons for reviews version
+########################################################################################################################
+
+add_executable(comparisons src/comparisons_review_2/comparison_capd_lohner_lie.cpp)
+target_compile_options(comparisons PUBLIC ${CODAC_CXX_FLAGS})
+target_include_directories(comparisons PUBLIC ${CODAC_INCLUDE_DIRS} ${PKG_CAPD_INCLUDE_DIRS})
+target_link_libraries(comparisons PUBLIC ${LIBS})
+
+add_executable(test_ctc_proj src/comparisons_review_2/ex_2_cn_method.cpp)
+target_compile_options(test_ctc_proj PUBLIC ${CODAC_CXX_FLAGS})
+target_include_directories(test_ctc_proj PUBLIC ${CODAC_INCLUDE_DIRS} ${PKG_CAPD_INCLUDE_DIRS})
+target_link_libraries(test_ctc_proj PUBLIC ${LIBS})
