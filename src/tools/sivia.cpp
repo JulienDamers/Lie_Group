@@ -15,7 +15,6 @@ using namespace pyibex;
 void sivia(IntervalVector& map, Sep& Sep, double epsilon)
 {
 
-    int boxes_counter = 1;
     int bissection = 0;
 
     stack<IntervalVector> s;
@@ -31,11 +30,11 @@ void sivia(IntervalVector& map, Sep& Sep, double epsilon)
         Sep.separate(boxIn,boxOut);
         if (boxOut[0].is_empty() && boxOut[1].is_empty())
         {
-            drawBox(box[0].lb(),box[0].ub(), box[1].lb(),box[1].ub(), "b[#648FFF]");
+            drawBox(box[0].lb(),box[0].ub(), box[1].lb(),box[1].ub(), "#009E73[#56B4E9]");
         }
         else if (boxIn[0].is_empty() && boxIn[1].is_empty())
         {
-            drawBox(box[0].lb(),box[0].ub(), box[1].lb(),box[1].ub(), "r[#DC267F]");
+            drawBox(box[0].lb(),box[0].ub(), box[1].lb(),box[1].ub(), "#D55E00[#CC79A7]");
         }
         else
         {
@@ -49,7 +48,7 @@ void sivia(IntervalVector& map, Sep& Sep, double epsilon)
             }
             else
             {
-                drawBox(box[0].lb(),box[0].ub(),box[1].lb(),box[1].ub(),"y[#FFB000]");
+                drawBox(box[0].lb(),box[0].ub(),box[1].lb(),box[1].ub(),"#E69F00[#F0E442]");
 
             }
         }
@@ -115,11 +114,11 @@ void sivia_article(ibex::IntervalVector& map, ibex::Sep& Sep, double epsilon, ip
         Sep.separate(boxIn,boxOut);
         if (boxOut[0].is_empty() && boxOut[1].is_empty())
         {
-            fig.draw_box(box,"blue","colorBlindOut");
+            fig.draw_box(box,"colorBlindOutStroke","colorBlindOutFill");
         }
         else if (boxIn[0].is_empty() && boxIn[1].is_empty())
         {
-            fig.draw_box(box,"red","colorBlindIn");
+            fig.draw_box(box,"colorBlindInStroke","colorBlindInFill");
         }
         else
         {
@@ -133,7 +132,7 @@ void sivia_article(ibex::IntervalVector& map, ibex::Sep& Sep, double epsilon, ip
             }
             else
             {
-                fig.draw_box(box,"gold","colorBlindMaybe");
+                fig.draw_box(box,"colorBlindMaybeStroke","colorBlindMaybeFill");
 
             }
         }
