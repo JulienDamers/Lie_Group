@@ -48,13 +48,13 @@ void example_2_continuous_article()
     fig.draw_text("\\Huge\\mathbb{X}_0",0.4,0.5,true);
     fig.set_size_axis_graduation(18.0);
     fig.draw_axis("x1","x2");
-    fig.save_ipe("example_2.ipe");
-    fig.save_pdf("example_2.pdf");
+    fig.save_ipe("example_2_continuous.ipe");
+    fig.save_pdf("example_2_continuous.pdf");
 
     return;
 }
 
-void example_2_not_continuous_article()
+void example_2_discrete_article()
 {
     IntervalVector X0({{0,1},{0,1}});
     IntervalVector x({{-1,10},{-1,3.2}});
@@ -100,8 +100,8 @@ void example_2_not_continuous_article()
     fig.draw_text("\\Huge\\mathbb{X}_0",0.4,0.5,true);
     fig.set_size_axis_graduation(18.0);
     fig.draw_axis("x1","x2");
-    fig.save_ipe("example_2.ipe");
-    fig.save_pdf("example_2.pdf");
+    fig.save_ipe("example_2_discrete.ipe");
+    fig.save_pdf("example_2_discrete.pdf");
 
     int n = seps.size();
     for (int i =0; i<n; i++)
@@ -119,7 +119,7 @@ int main (int argc, char* argv[])
     Tube::enable_syntheses();
 
     example_2_continuous_article();
-    example_2_not_continuous_article();
+    example_2_discrete_article();
 
     return(0);
 

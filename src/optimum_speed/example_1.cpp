@@ -52,7 +52,7 @@ void example_1_continous()
 
 
 
-void example_1_not_continuous()
+void example_1_discrete()
 {
     IntervalVector X0({{0,1},{2,3}}); // The uncertain initial condition
 
@@ -85,7 +85,7 @@ void example_1_not_continuous()
 
     beginDrawing();
     // Visuals initialization
-    VIBesFigMap fig_map("Example 1 discontinuous");
+    VIBesFigMap fig_map("Example 1 discrete");
     fig_map.set_properties(50,50,800,800);
 
     auto start = chrono::steady_clock::now();
@@ -113,9 +113,8 @@ int main (int argc, char* argv[])
     Tube::enable_syntheses();
 
     //example_1_continous();
-    cout << "continuous done" << endl;
-    example_1_not_continuous();
-    cout << "not continuous done" << endl;
+    example_1_discrete();
+
 
     
 

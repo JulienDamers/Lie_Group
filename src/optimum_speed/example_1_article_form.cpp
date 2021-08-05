@@ -63,7 +63,7 @@ void example_1_continuous_article()
     return;
 }
 
-void example_1_not_continuous_article()
+void example_1_discrete_article()
 {
     IntervalVector X0({{0,1},{2,3}}); // The uncertain initial condition
 
@@ -114,8 +114,8 @@ void example_1_not_continuous_article()
     fig.set_color_type(ipegenerator::STROKE_ONLY);
     fig.draw_text("\\mathbb{X}_0",0.4,2.5,true);
     fig.draw_axis("x1","x2");
-    fig.save_ipe("example_1_not_continuous.ipe");
-    fig.save_pdf("example_1_not_continuous.pdf");
+    fig.save_ipe("example_1_discrete.ipe");
+    fig.save_pdf("example_1_discrete.pdf");
 
     int n = seps.size();
     for (int i =0; i<n; i++)
@@ -133,7 +133,7 @@ int main (int argc, char* argv[])
     Tube::enable_syntheses();
 
     example_1_continuous_article();
-    example_1_not_continuous_article();
+    example_1_discrete_article();
 
 
 }

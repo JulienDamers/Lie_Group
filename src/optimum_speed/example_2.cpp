@@ -35,6 +35,7 @@ void example_2_continuous()
     IntervalVector proj(1);
     proj[0] = Interval(0,8);
     SepProj sepProj(fullSep,proj,epsilon);
+    cout << "X: " << x << endl;
     auto start = chrono::steady_clock::now();
     sivia(x,sepProj,epsilon);
     auto stop = chrono::steady_clock::now();
@@ -47,7 +48,7 @@ void example_2_continuous()
 }
 
 
-void example_2_not_continuous()
+void example_2_discrete()
 {
     IntervalVector X0({{0,1},{0,1}});
     IntervalVector x({{-1,10},{-1,3.2}});
@@ -75,7 +76,7 @@ void example_2_not_continuous()
 
     beginDrawing();
 
-    VIBesFigMap fig_map("Example 2 not continuous");
+    VIBesFigMap fig_map("Example 2 discrete");
     fig_map.set_properties(50,50,800,306);
     auto start = chrono::steady_clock::now();
     sivia(x,usep,epsilon);
@@ -101,7 +102,7 @@ int main (int argc, char* argv[])
     Tube::enable_syntheses();
 
     example_2_continuous();
-    example_2_not_continuous();
+    example_2_discrete();
 
     return(0);
 
