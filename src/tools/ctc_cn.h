@@ -15,6 +15,8 @@
                    std::vector<ibex::IntervalVector*>* intermediary_iv = new std::vector<ibex::IntervalVector*>(),
                    std::vector<ibex::Interval*>* intermediary_i = new std::vector<ibex::Interval*>());
             void contract(ibex::IntervalVector& x);
+            void contract(codac::TubeVector& x);
+            bool check_empty(ibex::IntervalVector& x);
 
         private:
             codac::ContractorNetwork* m_cn;

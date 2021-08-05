@@ -21,18 +21,19 @@ void ctc_cn::contract(ibex::IntervalVector &x)
 {
     m_box_to_contract_cn->clear();
     m_box_to_contract_cn->put(0,x);
-    for (int i = 0; i < m_intermediary_iv->size(); i++)
+    for (size_t i = 0; i < m_intermediary_iv->size(); i++)
     {
-        //cout << "intermediary vector[" << i << "] = " << *(*m_intermediary_iv)[i]<< endl;
+        //cout << "intermediary interval vector[" << i << "] = " << *(*m_intermediary_iv)[i]<< endl;
         (*m_intermediary_iv)[i]->init(Interval(Interval::ALL_REALS));
     }
-    for (int i = 0; i <  m_intermediary_i->size(); i++)
+    for (size_t i = 0; i <  m_intermediary_i->size(); i++)
     {
         *(*m_intermediary_i)[i] = Interval(Interval::ALL_REALS);
+        //cout << "intermediary interval[" << i << "] = " << *(*m_intermediary_i)[i]<< endl;
     }
     m_cn->trigger_all_contractors();
     m_cn->contract();
-    if (m_box_to_contract_cn->is_empty())
+    if ( check_empty(*m_box_to_contract_cn))
     {
         x.init(Interval(Interval::EMPTY_SET));
     }
@@ -41,4 +42,39 @@ void ctc_cn::contract(ibex::IntervalVector &x)
         x.put(0,*m_box_to_contract_cn);
     }
 
+}
+
+void ctc_cn::contract(codac::TubeVector &x)
+{
+    int slice_id = 0;
+    IntervalVector box_to_contract(x.size()+1);
+    while (slice_id<x.nb_slices())
+    {
+        box_to_contract.put(0,x(slice_id));
+        box_to_contract[box_to_contract.size()-1] = x[0].slice_tdomain(slice_id);
+        this->contract(box_to_contract);
+        if ( check_empty(box_to_contract))
+        {
+            x.set_empty();
+            cout << "warning empty tube" << endl;
+            break;
+        }
+        else
+        {
+            x.set(box_to_contract.subvector(0,box_to_contract.size()-2),slice_id);
+        }
+        slice_id++;
+    }
+}
+
+bool ctc_cn::check_empty(ibex::IntervalVector &x)
+{
+    bool empty = false;
+    int dim = 0;
+    while(!empty && (dim<x.size()))
+    {
+        empty = x[dim].is_empty();
+        dim++;
+    }
+    return(empty);
 }
