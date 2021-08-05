@@ -24,8 +24,9 @@ int main(int argc, char* argv[])
 
     double epsilon = 0.1;
 
-    codac::CtcFunction ctc_plus(Function("a", "b", "c", "a+b-c"));
-    codac::CtcFunction ctc_a(Function("a[2]", "t", "(t-a[0];1-cos(t)-a[1])"));
+    codac::CtcFunction ctc_sub(Function("a", "b", "c", "a-b-c"));
+    codac::CtcFunction ctc_a(Function("t", "a[2]", "(t-a[0];1-cos(t)-a[1])"));
+    ibex::CtcFixPoint ctc_fix(ctc_a);
     IntervalVector X0({{0, 1},
                        {0, 1}});
     ibex::Function phi("x[3]", "w[2]", "z[2]", "(w[0]; x[1] - z[1] + w[1])");
@@ -46,9 +47,9 @@ int main(int argc, char* argv[])
     intermediary_iv_out.push_back(&z_out);
     intermediary_iv_out.push_back(&w_out);
     intermediary_i_out.push_back(&beta_out);
-    cn_out.add(ctc_plus, {box_out[0], box_out[2], beta_out});
-    cn_out.add(ctc_a,{w_out,beta_out});   // cn_out.add(ctc_eval, {beta_out, w_out, a});
-    cn_out.add(ctc_a,{z_out,box_out[0]});  // cn_out.add(ctc_eval, {box_out[0], z_out, a});
+    cn_out.add(ctc_sub, {box_out[0], box_out[2], beta_out});
+    cn_out.add(ctc_fix,{beta_out, w_out});   // cn_out.add(ctc_eval, {beta_out, w_out, a});
+    cn_out.add(ctc_fix,{box_out[0],z_out});  // cn_out.add(ctc_eval, {box_out[0], z_out, a});
     cn_out.add(ctc_phi, {box_out, w_out, z_out});
     ctc_cn ctcCn_out(&cn_out, &box_out, &intermediary_iv_out, &intermediary_i_out);
 
@@ -62,17 +63,17 @@ int main(int argc, char* argv[])
     intermediary_iv_in.push_back(&z_in);
     intermediary_iv_in.push_back(&w_in);
     intermediary_i_in.push_back(&beta_in);
-    cn_in.add(ctc_plus, {box_in[0], box_in[2], beta_in});
-    cn_in.add(ctc_a,{w_in,beta_in});   // cn_in.add(ctc_eval, {beta_in, w_in, a});
-    cn_in.add(ctc_a,{z_in,box_in[0]});  // cn_in.add(ctc_eval, {box_in[0], z_in, a}); // t = x3
+    cn_in.add(ctc_sub, {box_in[0], box_in[2], beta_in});
+    cn_in.add(ctc_fix,{beta_in,w_in});   // cn_in.add(ctc_eval, {beta_in, w_in, a});
+    cn_in.add(ctc_fix,{box_in[0],z_in});  // cn_in.add(ctc_eval, {box_in[0], z_in, a}); // t = x3
     cn_in.add(ctc_phi_not, {box_in, w_in, z_in});
     ctc_cn ctcCn_in(&cn_in, &box_in, &intermediary_iv_in, &intermediary_i_in);
 
     SepCtcPair sep(ctcCn_in, ctcCn_out);
-    SepProj sep_proj(sep, Interval(-8, 0), epsilon);
+    SepProj sep_proj(sep, Interval(0, 8), epsilon);
 
     IntervalVector map({{-1,   10},
-                        {-10, 10}});
+                        {-1,3.2}});
 
 
     beginDrawing();
@@ -82,6 +83,7 @@ int main(int argc, char* argv[])
     fig.axis_limits(background_box);
     stack<IntervalVector> s;
 
+    cout << "X: " << map << endl;
     auto start = chrono::steady_clock::now();
     sivia(map,sep_proj,epsilon);
     auto stop = chrono::steady_clock::now();
