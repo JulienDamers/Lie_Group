@@ -29,7 +29,7 @@ void example_2(bool lohner_done, bool capd_done)
 
     Interval domain_2(0, 30); // Define domain of work on which we wnat to integrate
     double timestep_2 = 0.1;
-    IntervalVector x0_2({{0., 1.},
+    IntervalVector x0_2({{0., 0.2},
                          {0., 1.}}); // Define initial condition
     Function f_2("x", "y", "(1;sin(x))"); // Evolution function to integrate
 
@@ -164,7 +164,7 @@ void example_2(bool lohner_done, bool capd_done)
     fig_2.set_current_layer("text");
     fig_2.set_color_stroke("black");
     fig_2.set_color_type(ipegenerator::STROKE_ONLY);
-    fig_2.draw_text("\\mathbb{X}_0", 0.4, 2.5, true);
+    fig_2.draw_text("\\mathbb{X}_0", 0.4, 0.5, true);
     fig_2.draw_axis("x1", "x2");
     fig_2.save_ipe("comparison_ex_2.ipe");
     fig_2.save_pdf("comparison_ex_2.pdf");
