@@ -95,10 +95,7 @@ int main(int argc, char* argv[])
     fig.axis_limits(background_box);
     stack<IntervalVector> s;
 
-
     auto start = chrono::steady_clock::now();
-
-
     sivia(map,sep_proj,epsilon);
     auto stop = chrono::steady_clock::now();
     cout << "elapsed time: " << chrono::duration_cast<chrono::milliseconds>(stop - start).count() << " ms" << endl;
