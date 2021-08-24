@@ -24,18 +24,18 @@ void ctc_cn::contract(ibex::IntervalVector &x)
     for (size_t i = 0; i < m_intermediary_iv->size(); i++)
     {
         //cout << "intermediary interval vector[" << i << "] = " << *(*m_intermediary_iv)[i]<< endl;
-        (*m_intermediary_iv)[i]->init(Interval(Interval::ALL_REALS));
+        (*m_intermediary_iv)[i]->init(Interval::ALL_REALS);
     }
     for (size_t i = 0; i <  m_intermediary_i->size(); i++)
     {
-        *(*m_intermediary_i)[i] = Interval(Interval::ALL_REALS);
+        *(*m_intermediary_i)[i] = Interval::ALL_REALS;
         //cout << "intermediary interval[" << i << "] = " << *(*m_intermediary_i)[i]<< endl;
     }
     m_cn->trigger_all_contractors();
     m_cn->contract();
     if ( check_empty(*m_box_to_contract_cn))
     {
-        x.init(Interval(Interval::EMPTY_SET));
+        x.init(Interval::EMPTY_SET);
     }
     else
     {

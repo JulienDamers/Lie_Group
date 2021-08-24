@@ -5,6 +5,7 @@
 #include "codac.h"
 #include "codac-rob.h"
 #include "ipegenerator.h"
+#include "utils.h"
 
 void sivia(ibex::IntervalVector& map, ibex::Sep& Sep, double epsilon);
 void sivia(ibex::IntervalVector& map, ibex::Ctc& Ctc, double epsilon);

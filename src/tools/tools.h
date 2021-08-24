@@ -10,5 +10,6 @@
 #include "lie_group_ex4_separator.h"
 #include "ctc_cn.h"
 #include "sivia.h"
+#include "utils.h"
 
 #endif
