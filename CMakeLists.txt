@@ -4,7 +4,6 @@ cmake_minimum_required(VERSION 3.10)
 project(LIE_GROUP_CODE)
 set(CMAKE_CXX_STANDARD 11)
 set(CMAKE_CXX_FLAGS ${CMAKE_CXX_FLAGS} -O3)
-set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -DNDEBUG") # comment for debug
 
 
 
@@ -175,3 +174,8 @@ add_executable(test_ctc_proj src/comparisons_review_2/ex_2_cn_method.cpp)
 target_compile_options(test_ctc_proj PUBLIC ${CODAC_CXX_FLAGS})
 target_include_directories(test_ctc_proj PUBLIC ${CODAC_INCLUDE_DIRS} ${PKG_CAPD_INCLUDE_DIRS})
 target_link_libraries(test_ctc_proj PUBLIC ${LIBS})
+
+add_executable(sivia_capd_ex2 src/comparisons_review_2/sivia_capd_integration.cpp)
+target_compile_options(sivia_capd_ex2 PUBLIC ${CODAC_CXX_FLAGS})
+target_include_directories(sivia_capd_ex2 PUBLIC ${CODAC_INCLUDE_DIRS} ${PKG_CAPD_INCLUDE_DIRS})
+target_link_libraries(sivia_capd_ex2 PUBLIC ${LIBS})
