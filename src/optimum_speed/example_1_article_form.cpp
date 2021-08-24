@@ -31,7 +31,7 @@ void example_1_continuous_article()
     SepFwdBwd fullSep(phi,X0);
     IntervalVector proj(1);
     proj[0] = Interval(0,5);
-    SepProj sepProj(fullSep,proj,0.01);
+    SepProj sepProj(fullSep,proj,epsilon);
 
 
     IntervalVector frame({{-0.1,4},{-0.3,4}});

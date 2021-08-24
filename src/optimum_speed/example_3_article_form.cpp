@@ -25,7 +25,6 @@ void example_3_continuous_article()
     IntervalVector x0(2);
     x0[0] = Interval(0.5, 0.5);
     x0[1] = Interval(0, 0);
-    // Generate the reference  as we do not have a analytical expression for it
     Function f("x", "y", "(x^3+x*y^2-x+y; y^3+x^2*y-x-y)");
     // CAPD integration version
     TubeVector a = CAPD_integrateODE(domain, f, x0, timestep);

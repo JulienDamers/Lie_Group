@@ -22,6 +22,7 @@ void example_1_continous()
     IntervalVector X0({{0,1},{2,3}}); // The uncertain initial condition
 
     IntervalVector x({{0,4},{-0.2,4}}); // The space to explore for the set inversion
+    double epsilon = 0.1;
 
     // Generate the separator for the forward reach set
 
@@ -29,8 +30,7 @@ void example_1_continous()
     SepFwdBwd fullSep(phi,X0);
     IntervalVector proj(1);
     proj[0] = Interval(0,5);
-    SepProj sepProj(fullSep,proj,0.01);
-    double epsilon = 0.1;
+    SepProj sepProj(fullSep,proj,epsilon);
 
     beginDrawing();
     // Visuals initialization
@@ -42,7 +42,7 @@ void example_1_continous()
     auto stop = chrono::steady_clock::now();
     cout << "elapsed time: " << chrono::duration_cast<chrono::milliseconds>(stop - start).count() << " ms" <<endl;
 
-    drawBox(X0[0].lb(),X0[0].ub(),X0[1].lb(),X0[1].ub(),"g[g]");
+    drawBox(X0[0].lb(),X0[0].ub(),X0[1].lb(),X0[1].ub(),"#00FF00A3[#00FF00A3]");
     fig_map.axis_limits(x);
     endDrawing();
     return;
@@ -112,7 +112,7 @@ int main (int argc, char* argv[])
 {
     Tube::enable_syntheses();
 
-    //example_1_continous();
+    example_1_continous();
     example_1_discrete();
 
 

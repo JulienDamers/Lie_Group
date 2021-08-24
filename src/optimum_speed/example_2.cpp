@@ -57,7 +57,7 @@ void example_2_discrete()
     fullSep = new SepFwdBwd(phi,X0);
     double epsilon = 0.1;
 
-    vector<float> projection_times{0.,2.,4.,6.,8.};
+    vector<float> projection_times{8.};
 
     vector<Sep*> seps;
     vector<IntervalVector*> projections;
@@ -101,7 +101,7 @@ int main (int argc, char* argv[])
 {
     Tube::enable_syntheses();
 
-    example_2_continuous();
+    //example_2_continuous();
     example_2_discrete();
 
     return(0);
