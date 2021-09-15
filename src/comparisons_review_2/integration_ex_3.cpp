@@ -30,7 +30,7 @@ void example_3(bool lohner_done, bool capd_done)
     auto stop = chrono::steady_clock::now();
     codac::CtcEval ctc_eval;
 
-    Interval domain_3(0, 8);
+    Interval domain_3(0, 0.01);
     double timestep_3 = 0.01;
     IntervalVector x0_3({{0.4,  0.6},
                          {-0.1, 0.1}});
@@ -144,7 +144,7 @@ void example_3(bool lohner_done, bool capd_done)
     fig_3.set_color_fill("yellow");
     fig_3.set_opacity(30);
     fig_3.set_color_type(ipegenerator::STROKE_AND_FILL);
-    fig_3.draw_tubeVector(&x_lie_3, 0, 1);
+    //fig_3.draw_tubeVector(&x_lie_3, 0, 1);
     fig_3.set_opacity(30);
     fig_3.draw_box(x0_3, "green", "green");
     fig_3.set_color_stroke("black");

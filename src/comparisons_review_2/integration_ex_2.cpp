@@ -27,16 +27,17 @@ void example_2(bool lohner_done, bool capd_done)
     auto stop = chrono::steady_clock::now();
     codac::CtcEval ctc_eval;
 
-    Interval domain_2(0, 30); // Define domain of work on which we wnat to integrate
+    Interval domain_2_a(0, 35);
+    Interval domain_2_x(0, 35); // Define domain of work on which we want to integrate
     double timestep_2 = 0.1;
-    IntervalVector x0_2({{0., 0.2},
+    IntervalVector x0_2({{0., 1.},
                          {0., 1.}}); // Define initial condition
     Function f_2("x", "y", "(1;sin(x))"); // Evolution function to integrate
 
 
     // Integration using Lohner
 
-    TubeVector x_lohner_2 = TubeVector(domain_2, timestep_2, 2);
+    TubeVector x_lohner_2 = TubeVector(domain_2_a, timestep_2, 2);
     CtcLohner ctc_lohner_2(f_2);
     x_lohner_2.set(x0_2, 0.);
     try
@@ -57,11 +58,11 @@ void example_2(bool lohner_done, bool capd_done)
     }
 
     // Integration using CAPD
-    TubeVector x_capd_2 = TubeVector(domain_2, timestep_2, 2);
+    TubeVector x_capd_2 = TubeVector(domain_2_x, timestep_2, 2);
     try
     {
         start = chrono::steady_clock::now();
-        x_capd_2 = CAPD_integrateODE(domain_2, f_2, x0_2, timestep_2);
+        x_capd_2 = CAPD_integrateODE(domain_2_x, f_2, x0_2, timestep_2);
         stop = chrono::steady_clock::now();
         cout << "CAPD integration ex 2 processed in : "
              << chrono::duration_cast<chrono::milliseconds>(stop - start).count() << " ms" << endl;
@@ -75,15 +76,16 @@ void example_2(bool lohner_done, bool capd_done)
 
 
     // Integration using Lie
-    TubeVector a_lie_2 = CAPD_integrateODE(domain_2, f_2, IntervalVector({{0.,0.},{0.,0}}), timestep_2);
-    TubeVector ref_mid_2 = CAPD_integrateODE(domain_2, f_2, x0_2.mid(), timestep_2);
+    TubeVector a_lie_2 = CAPD_integrateODE(domain_2_a, f_2, IntervalVector({{0.,0.},{0.,0}}), timestep_2);
+    TubeVector ref_mid_2 = CAPD_integrateODE(domain_2_x, f_2, x0_2.mid(), timestep_2);
 
-    TubeVector x_lie_2(domain_2, timestep_2,2);
+    TubeVector x_lie_2(domain_2_x, timestep_2,2);
     codac::CtcFunction ctc_sub_2(Function("a", "b", "c", "a-b-c"));
     codac::CtcFunction ctc_a_2(Function("t", "a[2]", "(t-a[0];1-cos(t)-a[1])"));
     ibex::CtcFixPoint ctc_fix_2(ctc_a_2);
     ibex::Function phi_2("x[3]", "w[2]", "z[2]", "(w[0]; x[1] - z[1] + w[1])");
     ibex::CtcFwdBwd ctc_phi_2(phi_2, x0_2);
+    codac::CtcFunction ctc_domain(Function("x","(x)"),a_lie_2.tdomain());
 
 
 
@@ -101,9 +103,13 @@ void example_2(bool lohner_done, bool capd_done)
     intermediary_iv_out_2[1] = &w_out_2;
     intermediary_i_out_2[0] = &beta_out_2;
     cn_out_2.add(ctc_sub_2, {box_out_2[0], box_out_2[2], beta_out_2});
-    cn_out_2.add(ctc_fix_2,{beta_out_2,w_out_2});
-    cn_out_2.add(ctc_fix_2,{box_out_2[0],z_out_2});
+    cn_out_2.add(ctc_domain,{beta_out_2});
+    cn_out_2.add(ctc_eval,{beta_out_2,w_out_2,a_lie_2});
+    cn_out_2.add(ctc_eval,{box_out_2[0],z_out_2,a_lie_2});
+    //cn_out_2.add(ctc_fix_2,{beta_out_2,w_out_2});
+    //cn_out_2.add(ctc_fix_2,{box_out_2[0],z_out_2});
     cn_out_2.add(ctc_phi_2, {box_out_2, w_out_2, z_out_2});
+    cn_out_2.set_fixedpoint_ratio(0.);
     ctc_cn ctc_cn_out_2(&cn_out_2, &box_out_2, &intermediary_iv_out_2, &intermediary_i_out_2);
 
 
