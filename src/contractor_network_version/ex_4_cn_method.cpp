@@ -83,7 +83,7 @@ int main(int argc, char* argv[])
 
 
     SepCtcPair sep(ctc_cn_in,ctc_cn_out);
-    IntervalVector proj({{-6,6},{1,1}});
+    IntervalVector proj({{-6,6},{0,1}});
     SepProj sep_proj(sep,proj, epsilon);
 
     IntervalVector map({{-4,4},{-4,4}});
