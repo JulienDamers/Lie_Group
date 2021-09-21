@@ -39,7 +39,7 @@ int main(int argc, char* argv[])
     //TubeVector a = CAPD_integrateODE(domain,f,x0,timestep);
     cout << a << endl;
 
-    double epsilon = 0.01;
+    double epsilon = 0.1;
 
     IntervalVector X0({{0.4, 0.6},
                        {-0.1, 0.1}});
@@ -58,29 +58,25 @@ int main(int argc, char* argv[])
     // Complete version
 
     ContractorNetwork cn_out;
-    vector<IntervalVector *> intermediary_iv_out;
-    IntervalVector box_out = IntervalVector(3);
-    IntervalVector z_out = IntervalVector(2); // z = a(x_1)
-    intermediary_iv_out.push_back(&z_out);
+    IntervalVectorVar box_out(3);
+    IntervalVector& z_out = cn_out.create_interm_var(IntervalVector(2)); // z = a(x_1)
     cn_out.add(ctc_eval, {box_out[2], z_out, a});
     cn_out.add(ctc_dom_verif,{box_out, z_out});
     cn_out.add(ctc_phi, {box_out, z_out});
-    ctc_cn ctcCn_out(&cn_out, &box_out, &intermediary_iv_out);
+    ctc_cn ctcCn_out(&cn_out, &box_out);
 
 
     ContractorNetwork cn_in;
-    vector<IntervalVector *> intermediary_iv_in;
-    IntervalVector box_in = IntervalVector(3);
-    IntervalVector z_in = IntervalVector(2);
-    intermediary_iv_in.push_back(&z_in);
+    IntervalVectorVar box_in(3);
+    IntervalVector& z_in = cn_in.create_interm_var(IntervalVector(2));
     cn_in.add(ctc_eval, {box_in[2], z_in, a});
     cn_in.add(ctc_full,{box_in,z_in});
-    ctc_cn ctcCn_in(&cn_in, &box_in, &intermediary_iv_in);
+    ctc_cn ctcCn_in(&cn_in, &box_in);
 
 
 
     SepCtcPair sep(ctcCn_in, ctcCn_out);
-    SepProj sep_proj(sep, Interval(0, 4), epsilon);
+    SepProj sep_proj(sep, Interval(0, 3), epsilon);
 
 
 
