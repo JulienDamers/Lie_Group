@@ -245,12 +245,13 @@ int main (int argc, char* argv[])
 
     //example_2_continuous_article();
     //example_2_discrete_article();
-    //example_2_proof_reviewer_13();
+    example_2_proof_reviewer_13(1000);
     //comparison_sivia_capd();
-    for (int i=0; i< 1000;i++)
-    {
-        example_2_proof_reviewer_13(i);
-    }
+
+    //for (int i=0; i< 1000;i++)
+    //{
+    //    example_2_proof_reviewer_13(i);
+    //}
 
     return(0);
 
