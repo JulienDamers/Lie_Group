@@ -68,7 +68,6 @@ void lie_group_ex3_separator::separate(ibex::IntervalVector& Xin,ibex::IntervalV
 
 
     IntervalVector fullBoxOut(fullBoxIn);
-    IntervalVector fullBoxSave(fullBoxIn);
     IntervalVector zout(z);
     Interval tout(t);
 
