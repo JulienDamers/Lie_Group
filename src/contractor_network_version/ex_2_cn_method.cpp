@@ -38,37 +38,27 @@ int main(int argc, char* argv[])
     // Complete version
 
     ContractorNetwork cn_out;
-    vector<IntervalVector *> intermediary_iv_out;
-    vector<Interval *> intermediary_i_out;
-    IntervalVector box_out = IntervalVector(3);
-    IntervalVector z_out = IntervalVector(2); // z = a(x_1)
-    IntervalVector w_out = IntervalVector(2); // w = a(t+x_1)
-    Interval beta_out = Interval(); // beta = t+x1
-    intermediary_iv_out.push_back(&z_out);
-    intermediary_iv_out.push_back(&w_out);
-    intermediary_i_out.push_back(&beta_out);
+    IntervalVectorVar box_out(3);
+    IntervalVector& z_out = cn_out.create_interm_var(IntervalVector(2)); // z = a(x_1)
+    IntervalVector& w_out = cn_out.create_interm_var(IntervalVector(2)); // w = a(t+x_1)
+    Interval& beta_out = cn_out.create_interm_var(Interval()); // beta = t+x1
     cn_out.add(ctc_sub, {box_out[0], box_out[2], beta_out});
     cn_out.add(ctc_fix,{beta_out, w_out});   // cn_out.add(ctc_eval, {beta_out, w_out, a});
     cn_out.add(ctc_fix,{box_out[0],z_out});  // cn_out.add(ctc_eval, {box_out[0], z_out, a});
     cn_out.add(ctc_phi, {box_out, w_out, z_out});
-    ctc_cn ctcCn_out(&cn_out, &box_out, &intermediary_iv_out, &intermediary_i_out);
+    ctc_cn ctcCn_out(&cn_out, &box_out);
 
     ContractorNetwork cn_in;
-    vector<IntervalVector *> intermediary_iv_in;
-    vector<Interval *> intermediary_i_in;
-    IntervalVector box_in = IntervalVector(3);
-    IntervalVector z_in = IntervalVector(2);
-    IntervalVector w_in = IntervalVector(2);
-    Interval beta_in = Interval();
-    intermediary_iv_in.push_back(&z_in);
-    intermediary_iv_in.push_back(&w_in);
-    intermediary_i_in.push_back(&beta_in);
+
+    IntervalVectorVar box_in(3);
+    IntervalVector& z_in = cn_in.create_interm_var(IntervalVector(2));
+    IntervalVector& w_in = cn_in.create_interm_var(IntervalVector(2));
+    Interval& beta_in = cn_in.create_interm_var(Interval());
     cn_in.add(ctc_sub, {box_in[0], box_in[2], beta_in});
     cn_in.add(ctc_fix,{beta_in,w_in});   // cn_in.add(ctc_eval, {beta_in, w_in, a});
     cn_in.add(ctc_fix,{box_in[0],z_in});  // cn_in.add(ctc_eval, {box_in[0], z_in, a}); // t = x3
     cn_in.add(ctc_phi_not, {box_in, w_in, z_in});
-    ctc_cn ctcCn_in(&cn_in, &box_in, &intermediary_iv_in, &intermediary_i_in);
-
+    ctc_cn ctcCn_in(&cn_in, &box_in);
     SepCtcPair sep(ctcCn_in, ctcCn_out);
     SepProj sep_proj(sep, Interval(0, 8), epsilon);
 
