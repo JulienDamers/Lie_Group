@@ -223,7 +223,11 @@ void comparison_sivia_capd()
     fig.set_current_layer("text");
     fig.set_color_stroke("black");
     fig.set_color_type(ipegenerator::STROKE_ONLY);
-    fig.draw_text("\\Huge\\mathbb{X}_0",0.4,0.5,true);
+    fig.draw_text("{\\Huge$\\mathbb{X}_0$}",0.45,0.45,false);
+    fig.draw_text("{\\Huge$\\mathbb{X}_2$}",2.45,2.3,false);
+    fig.draw_text("{\\Huge$\\mathbb{X}_4$}",4.45,1.7,false);
+    fig.draw_text("{\\Huge$\\mathbb{X}_6$}",6.45,0.45,false);
+    fig.draw_text("{\\Huge$\\mathbb{X}_8$}",8.45,2.2,false);
     fig.set_size_axis_graduation(18.0);
     fig.draw_axis("x1","x2");
     fig.save_ipe("comparison_sivia_capd.ipe");
@@ -243,9 +247,10 @@ int main (int argc, char* argv[])
 {
     Tube::enable_syntheses();
 
-    //example_2_continuous_article();
-    //example_2_discrete_article();
-    example_2_proof_reviewer_13(1000);
+    example_2_continuous_article();
+    example_2_discrete_article();
+
+    //example_2_proof_reviewer_13(1000);
     //comparison_sivia_capd();
 
     //for (int i=0; i< 1000;i++)

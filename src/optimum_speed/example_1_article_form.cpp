@@ -112,7 +112,10 @@ void example_1_discrete_article()
     fig.set_current_layer("text");
     fig.set_color_stroke("black");
     fig.set_color_type(ipegenerator::STROKE_ONLY);
-    fig.draw_text("\\mathbb{X}_0",0.4,2.5,true);
+    fig.draw_text("{\\Huge$\\mathbb{X}_0$}",0.4,2.5,false);
+    fig.draw_text("{\\Huge$\\mathbb{X}_1$}",1.45,0.9,false);
+    fig.draw_text("{\\Huge$\\mathbb{X}_2$}",2.45,0.3,false);
+    fig.draw_text("{\\Huge$\\mathbb{X}_3$}",3.45,0.1,false);
     fig.draw_axis("x1","x2");
     fig.save_ipe("example_1_discrete.ipe");
     fig.save_pdf("example_1_discrete.pdf");
