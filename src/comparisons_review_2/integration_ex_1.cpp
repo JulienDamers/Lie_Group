@@ -88,14 +88,12 @@ void example_1(bool lohner_done, bool capd_done)
 
 
     ContractorNetwork cn_out_1;
-    vector<IntervalVector *> intermediary_iv_out_1;
-    IntervalVector box_out_1 = IntervalVector(3);
-    IntervalVector z_out_1 = IntervalVector(2); // a(t)
-    intermediary_iv_out_1.push_back(&z_out_1);
+    IntervalVectorVar box_out_1(3);
+    IntervalVector& z_out_1 = cn_out_1.create_interm_var(IntervalVector(2)); // a(t)
     cn_out_1.add(ctc_eval, {box_out_1[2], z_out_1, a_lie_1}); // t = x3
     cn_out_1.add(ctc_phi_1, {box_out_1, z_out_1});
     cn_out_1.set_fixedpoint_ratio(0);
-    ctc_cn ctc_cn_out_1(&cn_out_1, &box_out_1, &intermediary_iv_out_1);
+    ctc_cn ctc_cn_out_1(&cn_out_1, &box_out_1);
 
     start = chrono::steady_clock::now();
     ctc_cn_out_1.contract(x_lie_1);

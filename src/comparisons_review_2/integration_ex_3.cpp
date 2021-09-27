@@ -1,5 +1,5 @@
 //
-// Created by julien-damers on 1/18/21.
+// Created by julien-damers on 30/07/21.
 //
 
 #include "codac.h"
@@ -128,7 +128,7 @@ void example_3(bool lohner_done, bool capd_done)
         fig_3.set_color_fill("red");
         fig_3.set_opacity(30);
         fig_3.set_color_type(ipegenerator::STROKE_AND_FILL);
-        //fig_3.draw_tubeVector(&x_lohner_3, 0, 1);
+        fig_3.draw_tubeVector(&x_lohner_3, 0, 1);
         lohner_done = false;
     }
     if ( capd_done )
@@ -144,7 +144,8 @@ void example_3(bool lohner_done, bool capd_done)
     fig_3.set_color_fill("yellow");
     fig_3.set_opacity(30);
     fig_3.set_color_type(ipegenerator::STROKE_AND_FILL);
-    //fig_3.draw_tubeVector(&x_lie_3, 0, 1);
+    fig_3.draw_tubeVector(&x_lie_3, 0, 1);
+    cout << x_lie_3(0) << endl;
     fig_3.set_opacity(30);
     fig_3.draw_box(x0_3, "green", "green");
     fig_3.set_color_stroke("black");

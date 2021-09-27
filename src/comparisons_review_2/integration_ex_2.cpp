@@ -1,5 +1,5 @@
 //
-// Created by julien-damers on 1/14/21.
+// Created by julien-damers on 22/07/21.
 //
 
 #include "codac.h"
@@ -93,15 +93,10 @@ void example_2(bool lohner_done, bool capd_done)
 
 
     ContractorNetwork cn_out_2;
-    vector<IntervalVector *> intermediary_iv_out_2(2);
-    vector<Interval *> intermediary_i_out_2(1);
-    IntervalVector& box_out_2 = cn_out_2.create_dom(IntervalVector(3));
-    IntervalVector& z_out_2 = cn_out_2.create_dom(IntervalVector(2)); // z = a(x_1)
-    IntervalVector& w_out_2 = cn_out_2.create_dom(IntervalVector(2)); // w = a(t+x_1)
-    Interval beta_out_2 = cn_out_2.create_dom(Interval()); // beta = t+x1
-    intermediary_iv_out_2[0] = &z_out_2;
-    intermediary_iv_out_2[1] = &w_out_2;
-    intermediary_i_out_2[0] = &beta_out_2;
+    IntervalVectorVar box_out_2(3);
+    IntervalVector& z_out_2 = cn_out_2.create_interm_var(IntervalVector(2)); // z = a(x_1)
+    IntervalVector& w_out_2 = cn_out_2.create_interm_var(IntervalVector(2)); // w = a(t+x_1)
+    Interval& beta_out_2 = cn_out_2.create_interm_var(Interval()); // beta = t+x1
     cn_out_2.add(ctc_sub_2, {box_out_2[0], box_out_2[2], beta_out_2});
     cn_out_2.add(ctc_domain,{beta_out_2});
     cn_out_2.add(ctc_eval,{beta_out_2,w_out_2,a_lie_2});
@@ -110,8 +105,7 @@ void example_2(bool lohner_done, bool capd_done)
     //cn_out_2.add(ctc_fix_2,{box_out_2[0],z_out_2});
     cn_out_2.add(ctc_phi_2, {box_out_2, w_out_2, z_out_2});
     cn_out_2.set_fixedpoint_ratio(0.);
-    ctc_cn ctc_cn_out_2(&cn_out_2, &box_out_2, &intermediary_iv_out_2, &intermediary_i_out_2);
-
+    ctc_cn ctc_cn_out_2(&cn_out_2, &box_out_2);
 
     start = chrono::steady_clock::now();
     ctc_cn_out_2.contract(x_lie_2);
@@ -164,7 +158,7 @@ void example_2(bool lohner_done, bool capd_done)
     fig_2.set_color_stroke("black");
     fig_2.set_color_fill("black");
     fig_2.set_opacity(100);
-    fig_2.draw_tubeVector(&ref_mid_2,0,1);
+    fig_2.draw_tubeVector(&a_lie_2,0,1);
     fig_2.set_color_type(ipegenerator::STROKE_ONLY);
     fig_2.add_layer("text");
     fig_2.set_current_layer("text");
@@ -175,11 +169,7 @@ void example_2(bool lohner_done, bool capd_done)
     fig_2.save_ipe("comparison_ex_2.ipe");
     fig_2.save_pdf("comparison_ex_2.pdf");
 
-    for(size_t i=0; i<intermediary_i_out_2.size();i++)
-    {
-        cout <<intermediary_i_out_2[i] << endl;
-        cout <<*(intermediary_i_out_2[i]) << endl;
-    }
+
 }
 
 int main(int argc, char* argv[])

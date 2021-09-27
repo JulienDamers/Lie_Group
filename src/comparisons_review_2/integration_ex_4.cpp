@@ -1,5 +1,5 @@
 //
-// Created by julien-damers on 12/18/20.
+// Created by julien-damers on 27/09/21.
 //
 
 
@@ -83,7 +83,7 @@ void example_4(bool lohner_done, bool capd_done)
                              {0.,  0.},
                              {0.,  0.}});
     TubeVector a_lie_4 = CAPD_integrateODE(domain_4, f_4, x0_lie_4, timestep_4);
-    TubeVector x_lie_4(domain_4, timestep_4, 4);
+    TubeVector x_lie_4(Interval(0,15), timestep_4,3);
 
 
     IntervalVector X0_simplified_4({{-0.1, 0.1},
@@ -95,9 +95,9 @@ void example_4(bool lohner_done, bool capd_done)
     ibex::CtcFwdBwd ctc_sub(*new ibex::Function("x", "y", "z", "x-y-z"));
 
 
-    Variable x_v(4, "x_simp"); // x_simp=(x1,x2,x3,x4)
-    Variable w_v(4, "w"); // a(x4)
-    Variable beta_v(1, "beta"); // x3-a3(x4)
+    ibex::Variable x_v(4, "x_simp"); // x_simp=(x1,x2,x3,x4)
+    ibex::Variable w_v(4, "w"); // a(x4)
+    ibex::Variable beta_v(1, "beta"); // x3-a3(x4)
 
     ibex::Function phi_simplified_4(x_v, w_v, beta_v,
                                     Return(x_v[0] + cos(beta_v[0]) * (-w_v[0]) - sin(beta_v[0]) * (-w_v[1]),
@@ -109,21 +109,19 @@ void example_4(bool lohner_done, bool capd_done)
 
     // simplified version
     ContractorNetwork cn_simplified_out_4;
-    vector<IntervalVector *> intermediary_iv_out_4;
-    vector<Interval *> intermediary_i_out_4;
-    IntervalVector box_simp_out_4 = IntervalVector(4);
-    IntervalVector w_simp_out_4 = IntervalVector(4);
-    Interval beta_simp_out_4 = Interval();
-    intermediary_iv_out_4.push_back(&w_simp_out_4);
-    intermediary_i_out_4.push_back(&beta_simp_out_4);
+    IntervalVectorVar box_simp_out_4(4);
+    IntervalVector& w_simp_out_4 = cn_simplified_out_4.create_interm_var(IntervalVector(4));
+    Interval& beta_simp_out_4 = cn_simplified_out_4.create_interm_var( Interval());
     cn_simplified_out_4.add(ctc_eval, {box_simp_out_4[3], w_simp_out_4, a_lie_4});
     cn_simplified_out_4.add(ctc_sub, {box_simp_out_4[2], w_simp_out_4[2], beta_simp_out_4});
     cn_simplified_out_4.add(ctc_phi_simp_4, {box_simp_out_4, w_simp_out_4, beta_simp_out_4});
-    ctc_cn ctc_cn_out_4(&cn_simplified_out_4, &box_simp_out_4, &intermediary_iv_out_4, &intermediary_i_out_4);
+    ctc_cn ctc_cn_out_4(&cn_simplified_out_4, &box_simp_out_4);
 
     start = chrono::steady_clock::now();
     ctc_cn_out_4.contract(x_lie_4);
     stop = chrono::steady_clock::now();
+
+    cout << x_lie_4(0) << endl;
     cout << "Lie integration ex 3 processed in : "
          << chrono::duration_cast<chrono::milliseconds>(stop - start).count() << " ms" << endl;
 
@@ -142,7 +140,7 @@ void example_4(bool lohner_done, bool capd_done)
         fig_4.set_color_fill("red");
         fig_4.set_opacity(30);
         fig_4.set_color_type(ipegenerator::STROKE_AND_FILL);
-        fig_4.draw_tubeVector(&x_lohner_4, 0, 1);
+        //fig_4.draw_tubeVector(&x_lohner_4, 0, 1);
         lohner_done = false;
     }
     if ( capd_done )
@@ -151,22 +149,24 @@ void example_4(bool lohner_done, bool capd_done)
         fig_4.set_color_fill("blue");
         fig_4.set_opacity(30);
         fig_4.set_color_type(ipegenerator::STROKE_AND_FILL);
-        fig_4.draw_tubeVector(&x_capd_4, 0, 1);
+        //fig_4.draw_tubeVector(&x_capd_4, 0, 1);
         capd_done = false;
     }
+    fig_4.set_opacity(30);
     fig_4.set_color_stroke("yellow");
     fig_4.set_color_fill("yellow");
     fig_4.set_opacity(30);
     fig_4.set_color_type(ipegenerator::STROKE_AND_FILL);
-    //fig_4.draw_tubeVector(&x_lie_4, 0, 1);
+    fig_4.draw_tubeVector(&x_lie_4, 0, 1);
     fig_4.set_opacity(30);
     fig_4.draw_box(x0_4.subvector(0, 1), "green", "green");
     fig_4.set_opacity(100);
+    fig_4.draw_circle(1.2,1.2,0.1);
     fig_4.add_layer("text");
     fig_4.set_current_layer("text");
     fig_4.set_color_stroke("black");
     fig_4.set_color_type(ipegenerator::STROKE_ONLY);
-    fig_4.draw_text("\\mathbb{X}_0", 0.4, 2.5, true);
+    //fig_4.draw_text("\\mathbb{X}_0", 0.4, 2.5, true);
     fig_4.draw_axis("x1", "x2");
     fig_4.save_ipe("comparison_ex_4.ipe");
     fig_4.save_pdf("comparison_ex_4.pdf");
