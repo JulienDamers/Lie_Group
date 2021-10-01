@@ -21,15 +21,14 @@ void ctc_cn::contract(ibex::IntervalVector &x)
                            // for this contraction procedure
                    });
 }
-
+/*
 void ctc_cn::contract(codac::TubeVector &x)
 {
     int slice_id = 0;
-    IntervalVector box_to_contract(x.size()+1);
+    IntervalVector box_to_contract(m_box->size());
     while (slice_id<x.nb_slices())
     {
         box_to_contract.put(0,x(slice_id));
-        box_to_contract[box_to_contract.size()-1] = x[0].slice_tdomain(slice_id);
         this->contract(box_to_contract);
         if ( check_empty(box_to_contract))
         {
@@ -39,11 +38,12 @@ void ctc_cn::contract(codac::TubeVector &x)
         }
         else
         {
-            x.set(box_to_contract.subvector(0,box_to_contract.size()-2),slice_id);
+            x.set(box_to_contract.subvector(0,box_to_contract.size()-1),slice_id);
         }
         slice_id++;
     }
 }
+*/
 
 bool ctc_cn::check_empty(ibex::IntervalVector &x)
 {

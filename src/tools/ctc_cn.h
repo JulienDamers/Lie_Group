@@ -13,7 +13,7 @@
         public:
             ctc_cn(codac::ContractorNetwork *cn, codac::IntervalVectorVar *box);
             void contract(ibex::IntervalVector& x);
-            void contract(codac::TubeVector& x);
+            //void contract(codac::TubeVector& x);
             bool check_empty(ibex::IntervalVector& x);
 
         private:
