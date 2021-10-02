@@ -103,6 +103,7 @@ void sivia(IntervalVector& map, Ctc& Ctc, double epsilon)
 
 void sivia_article(ibex::IntervalVector& map, ibex::Sep& Sep, double epsilon, ipegenerator::Figure& fig)
 {
+
     stack<IntervalVector> s;
     s.push(map);
 
@@ -117,10 +118,12 @@ void sivia_article(ibex::IntervalVector& map, ibex::Sep& Sep, double epsilon, ip
         Sep.separate(boxIn,boxOut);
         if (boxOut[0].is_empty() && boxOut[1].is_empty())
         {
+            fig.set_current_layer("outer");
             fig.draw_box(box,"colorBlindOutStroke","colorBlindOutFill");
         }
         else if (boxIn[0].is_empty() && boxIn[1].is_empty())
         {
+            fig.set_current_layer("inner");
             fig.draw_box(box,"colorBlindInStroke","colorBlindInFill");
         }
         else
@@ -135,6 +138,7 @@ void sivia_article(ibex::IntervalVector& map, ibex::Sep& Sep, double epsilon, ip
             }
             else
             {
+                fig.set_current_layer("uncertain");
                 fig.draw_box(box,"colorBlindMaybeStroke","colorBlindMaybeFill");
 
             }
@@ -142,6 +146,7 @@ void sivia_article(ibex::IntervalVector& map, ibex::Sep& Sep, double epsilon, ip
 
     }
     cout << bisections << " bisections have been done" << endl;
+    fig.set_current_layer("data");
 
 }
 
@@ -160,6 +165,7 @@ void sivia_article(ibex::IntervalVector& map, ibex::Ctc& Ctc, double epsilon, ip
         Ctc.contract(boxOut);
         if (boxOut[0].is_empty() && boxOut[1].is_empty())
         {
+            fig.set_current_layer("outer");
             fig.draw_box(box,"blue","colorBlindOut");
         }
         else
@@ -174,6 +180,7 @@ void sivia_article(ibex::IntervalVector& map, ibex::Ctc& Ctc, double epsilon, ip
             }
             else
             {
+                fig.set_current_layer("uncertain");
                 fig.draw_box(box,"gold","colorBlindMaybe");
 
             }
@@ -181,6 +188,7 @@ void sivia_article(ibex::IntervalVector& map, ibex::Ctc& Ctc, double epsilon, ip
 
     }
     cout << bisections << " bisectionss have been done" << endl;
+    fig.set_current_layer("data");
 
 }
 
