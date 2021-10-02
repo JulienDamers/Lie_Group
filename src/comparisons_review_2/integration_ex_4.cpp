@@ -39,21 +39,13 @@ void example_4(bool lohner_done, bool capd_done)
     // Integration using CAPD
 
     TubeVector x_capd_4 = TubeVector(domain_4, timestep_4, 4);
-    try
-    {
-        start = chrono::steady_clock::now();
-        x_capd_4 = CAPD_integrateODE(domain_4, f_4, x0_4, timestep_4);
-        stop = chrono::steady_clock::now();
-        cout << "CAPD integration ex 3 processed in : "
-             << chrono::duration_cast<chrono::milliseconds>(stop - start).count() << " ms" << endl;
-        capd_done = true;
-    }
-    catch ( exception &e )
-    {
-        capd_done = false;
-        cout << "\n\nException caught!\n" << e.what() << endl;
 
-    }
+    start = chrono::steady_clock::now();
+    x_capd_4 = CAPD_integrateODE(domain_4, f_4, x0_4, timestep_4);
+    stop = chrono::steady_clock::now();
+    cout << "CAPD integration ex 4 processed in : "
+         << chrono::duration_cast<chrono::milliseconds>(stop - start).count() << " ms" << endl;
+
 
 
     // Integration using Lie Group
@@ -81,6 +73,8 @@ void example_4(bool lohner_done, bool capd_done)
     ibex::Function phi("x[4]","w[3]","b","( x[1] + cos(b) * (-w[0]) - sin(b) * (-w[1]) - [-0.1,0.1]; x[2] + sin(b) * (-w[0]) + cos(b) * (-w[1]) - [-0.1,0.1]; b - [-0.4,0.4] )");
     CtcFunction ctc_phi(phi);
     codac::CtcEval ctc_eval;
+    ctc_eval.preserve_slicing();
+    ctc_eval.set_fast_mode();
 
 
     // simplified version
@@ -99,7 +93,7 @@ void example_4(bool lohner_done, bool capd_done)
     stop = chrono::steady_clock::now();
 
     cout << x_lie_4(0) << endl;
-    cout << "Lie integration ex 3 processed in : "
+    cout << "Lie integration ex 4 processed in : "
          << chrono::duration_cast<chrono::milliseconds>(stop - start).count() << " ms" << endl;
 
 
@@ -110,24 +104,31 @@ void example_4(bool lohner_done, bool capd_done)
     fig_4.set_number_digits_axis_x(1);
     fig_4.set_number_digits_axis_y(1);
 
-    if ( capd_done )
-    {
-        fig_4.set_color_stroke("blue");
-        fig_4.set_color_fill("blue");
-        fig_4.set_opacity(30);
-        fig_4.set_color_type(ipegenerator::STROKE_AND_FILL);
-        fig_4.draw_tubeVector(&x_capd_4,"x_capd", 0, 1);
-        capd_done = false;
-    }
-    fig_4.set_opacity(30);
-    fig_4.set_color_stroke("red");
-    fig_4.set_color_fill("yellow");
+
+    fig_4.set_color_stroke("colorBlindOutStroke");
+    fig_4.set_color_fill("colorBlindOutFill");
     fig_4.set_opacity(30);
     fig_4.set_color_type(ipegenerator::STROKE_AND_FILL);
-    fig_4.draw_tubeVector(&x_lie_4,"x_lie", 0, 1);
+    fig_4.draw_tubeVector(&x_capd_4,"x_capd", 0, 1);
+
+    fig_4.set_opacity(30);
+    fig_4.set_color_stroke("colorBlindMaybeStroke");
+    fig_4.set_color_fill("colorBlindMaybeFill");
+    fig_4.set_opacity(30);
+    fig_4.set_color_type(ipegenerator::STROKE_AND_FILL);
+    fig_4.draw_tubeVector(&x_lie_4,"x_lie", 0, 1,true);
+
     fig_4.set_opacity(30);
     fig_4.draw_box(x0_4.subvector(0, 1), "green", "green");
+
     fig_4.set_opacity(100);
+    codac::ColorMap colorMap_reference(codac::InterpolMode::RGB);
+    codac::rgb black= codac::make_rgb((float)0.,(float)0.,(float)0.);
+    codac::rgb colorBlind= codac::make_rgb((float)0.,(float)0.619,(float)0.451);
+    colorMap_reference.add_color_point(black,0);
+    colorMap_reference.add_color_point(colorBlind,1);
+    fig_4.draw_tubeVector(&a_lie_4,"reference", 0, 1,&colorMap_reference,nullptr,ipegenerator::STROKE_AND_FILL,true);
+
     fig_4.add_layer("text");
     fig_4.set_current_layer("text");
     fig_4.set_color_stroke("black");

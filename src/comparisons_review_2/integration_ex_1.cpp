@@ -40,37 +40,20 @@ void example_1(bool lohner_done, bool capd_done)
     TubeVector x_lohner_1(domain_1, timestep_1, 2);
     CtcLohner ctc_lohner_1(f_1);
     x_lohner_1.set(x0_1, 0.);
-    try
-    {
-        start = chrono::steady_clock::now();
-        ctc_lohner_1.contract(x_lohner_1);
-        stop = chrono::steady_clock::now();
-        cout << "Lohner integration ex 1 processed in : "
-             << chrono::duration_cast<chrono::milliseconds>(stop - start).count() << " ms"
-             << endl;
-        lohner_done = true;
-    }
-    catch ( exception &e )
-    {
-        lohner_done = false;
-        cout << "\n\nException caught!\n" << e.what() << endl;
-    }
+    start = chrono::steady_clock::now();
+    ctc_lohner_1.contract(x_lohner_1);
+    stop = chrono::steady_clock::now();
+    cout << "Lohner integration ex 1 processed in : "
+         << chrono::duration_cast<chrono::milliseconds>(stop - start).count() << " ms"
+         << endl;
 
-    TubeVector x_capd_1(domain_1, timestep_1, 2);
+
     // Integration using CAPD
-    try
-    {
-        start = chrono::steady_clock::now();
-        x_capd_1 = CAPD_integrateODE(domain_1, f_1, x0_1, timestep_1);
-        stop = chrono::steady_clock::now();
-        capd_done = true;
-    }
-    catch ( exception &e )
-    {
-        capd_done = false;
-        cout << "\n\nException caught!\n" << e.what() << endl;
+    TubeVector x_capd_1(domain_1, timestep_1, 2);
+    start = chrono::steady_clock::now();
+    x_capd_1 = CAPD_integrateODE(domain_1, f_1, x0_1, timestep_1);
+    stop = chrono::steady_clock::now();
 
-    }
     cout << "CAPD integration ex 1 processed in : "
          << chrono::duration_cast<chrono::milliseconds>(stop - start).count() << " ms" << endl;
 
@@ -113,38 +96,41 @@ void example_1(bool lohner_done, bool capd_done)
     fig_1.set_number_digits_axis_y(1);
 
     // Visuals initialization
-    if ( lohner_done )
-    {
-        fig_1.set_color_stroke("red");
-        fig_1.set_color_fill("red");
-        fig_1.set_opacity(100);
-        fig_1.set_color_type(ipegenerator::STROKE_AND_FILL);
-        fig_1.draw_tubeVector(&x_lohner_1, "lohner",0, 1);
-        lohner_done = false;
-    }
+
+    fig_1.set_color_stroke("colorBlindInStroke");
+    fig_1.set_color_fill("colorBlindInFill");
+    fig_1.set_opacity(100);
+    fig_1.set_color_type(ipegenerator::STROKE_AND_FILL);
+    fig_1.draw_tubeVector(&x_lohner_1, "lohner",0, 1);
 
 
-    if ( capd_done )
-    {
-        fig_1.set_color_stroke("blue");
-        fig_1.set_color_fill("blue");
-        fig_1.set_opacity(50);
-        fig_1.set_color_type(ipegenerator::STROKE_AND_FILL);
-        fig_1.draw_tubeVector(&x_capd_1, "capd",0, 1);
-        capd_done = false;
-    }
 
-    fig_1.set_color_stroke("yellow");
-    fig_1.set_color_fill("yellow");
+
+    fig_1.set_color_stroke("colorBlindOutStroke");
+    fig_1.set_color_fill("colorBlindOutFill");
+    fig_1.set_opacity(50);
+    fig_1.set_color_type(ipegenerator::STROKE_AND_FILL);
+    fig_1.draw_tubeVector(&x_capd_1, "capd",0, 1);
+
+
+    fig_1.set_color_stroke("colorBlindMaybeStroke");
+    fig_1.set_color_fill("colorBlindMaybeFill");
     fig_1.set_opacity(10);
     fig_1.set_color_type(ipegenerator::STROKE_AND_FILL);
     fig_1.draw_tubeVector(&x_lie_1,"lie", 0, 1);
 
-
-
     fig_1.set_opacity(30);
     fig_1.draw_box(x0_1, "green", "green");
     fig_1.set_opacity(100);
+
+    codac::ColorMap colorMap_reference(codac::InterpolMode::RGB);
+    codac::rgb black= codac::make_rgb((float)0.,(float)0.,(float)0.);
+    codac::rgb colorBlind= codac::make_rgb((float)0.,(float)0.619,(float)0.451);
+    colorMap_reference.add_color_point(black,0);
+    colorMap_reference.add_color_point(colorBlind,1);
+    fig_1.draw_tubeVector(&a_lie_1,"reference", 0, 1,&colorMap_reference);
+
+
     fig_1.add_layer("text");
     fig_1.set_current_layer("text");
     fig_1.set_color_stroke("black");
