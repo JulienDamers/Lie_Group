@@ -27,7 +27,7 @@ void example_1(bool lohner_done, bool capd_done)
 
     auto start = chrono::steady_clock::now();
     auto stop = chrono::steady_clock::now();
-    codac::CtcEval ctc_eval;
+
 
 
     Interval domain_1(0, 4);
@@ -83,20 +83,23 @@ void example_1(bool lohner_done, bool capd_done)
     TubeVector x_lie_1(domain_1, timestep_1, 2);
 
 
-    ibex::Function phi_1("x1", "x2", "t", "a1", "a2", "(x1 - a1; x2/a2)");
-    ibex::CtcFwdBwd ctc_phi_1(phi_1, x0_1);
-
+    Function phi_1("x[3]", "a[2]", "(x[1] - a[0]; x[2]/a[1])");
+    CtcFunction ctc_phi_1(phi_1, x0_1);
+    codac::CtcEval ctc_eval;
+    ctc_eval.preserve_slicing();
+    ctc_eval.set_fast_mode();
 
     ContractorNetwork cn_out_1;
     IntervalVectorVar box_out_1(3);
     IntervalVector& z_out_1 = cn_out_1.create_interm_var(IntervalVector(2)); // a(t)
-    cn_out_1.add(ctc_eval, {box_out_1[2], z_out_1, a_lie_1}); // t = x3
+    cn_out_1.add(ctc_eval, {box_out_1[0], z_out_1, a_lie_1}); // t = x3
     cn_out_1.add(ctc_phi_1, {box_out_1, z_out_1});
     cn_out_1.set_fixedpoint_ratio(0);
     ctc_cn ctc_cn_out_1(&cn_out_1, &box_out_1);
+    CtcStatic ctc_static_1(ctc_cn_out_1,true);
 
     start = chrono::steady_clock::now();
-    ctc_cn_out_1.contract(x_lie_1);
+    ctc_static_1.contract(x_lie_1);
     stop = chrono::steady_clock::now();
     cout << "Lie integration ex 1 processed in : "
          << chrono::duration_cast<chrono::milliseconds>(stop - start).count() << " ms" << endl;
@@ -114,9 +117,9 @@ void example_1(bool lohner_done, bool capd_done)
     {
         fig_1.set_color_stroke("red");
         fig_1.set_color_fill("red");
-        fig_1.set_opacity(30);
+        fig_1.set_opacity(100);
         fig_1.set_color_type(ipegenerator::STROKE_AND_FILL);
-        fig_1.draw_tubeVector(&x_lohner_1, 0, 1);
+        fig_1.draw_tubeVector(&x_lohner_1, "lohner",0, 1);
         lohner_done = false;
     }
 
@@ -125,27 +128,28 @@ void example_1(bool lohner_done, bool capd_done)
     {
         fig_1.set_color_stroke("blue");
         fig_1.set_color_fill("blue");
-        fig_1.set_opacity(30);
+        fig_1.set_opacity(50);
         fig_1.set_color_type(ipegenerator::STROKE_AND_FILL);
-        fig_1.draw_tubeVector(&x_capd_1, 0, 1);
+        fig_1.draw_tubeVector(&x_capd_1, "capd",0, 1);
         capd_done = false;
     }
 
     fig_1.set_color_stroke("yellow");
     fig_1.set_color_fill("yellow");
-    fig_1.set_opacity(30);
+    fig_1.set_opacity(10);
     fig_1.set_color_type(ipegenerator::STROKE_AND_FILL);
-    fig_1.draw_tubeVector(&x_lie_1, 0, 1);
+    fig_1.draw_tubeVector(&x_lie_1,"lie", 0, 1);
 
 
 
     fig_1.set_opacity(30);
     fig_1.draw_box(x0_1, "green", "green");
+    fig_1.set_opacity(100);
     fig_1.add_layer("text");
     fig_1.set_current_layer("text");
     fig_1.set_color_stroke("black");
     fig_1.set_color_type(ipegenerator::STROKE_ONLY);
-    fig_1.draw_text("\\mathbb{X}_0", 0.4, 2.5, true);
+    fig_1.draw_text("{\\Huge$\\mathbb{X}_0$}",0.4,2.5,false);
     fig_1.draw_axis("x1", "x2");
     fig_1.save_ipe("comparison_ex_1.ipe");
     fig_1.save_pdf("comparison_ex_1.pdf");
