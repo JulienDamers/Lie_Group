@@ -33,6 +33,8 @@ int main(int argc, char* argv[])
     ibex::CtcFwdBwd ctc_phi(phi, X0);
     ibex::CtcNotIn ctc_phi_not(phi, X0);
     codac::CtcEval ctc_eval;
+    ctc_eval.preserve_slicing();
+    ctc_eval.set_fast_mode();
 
 
     // Complete version

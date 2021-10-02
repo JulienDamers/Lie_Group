@@ -53,6 +53,8 @@ int main(int argc, char* argv[])
     ibex::CtcNotIn ctc_dom_verif_not(f_dom, Interval::POS_REALS);
     CtcUnion ctc_full(ctc_phi_not,ctc_dom_verif_not);
     codac::CtcEval ctc_eval;
+    ctc_eval.preserve_slicing();
+    ctc_eval.set_fast_mode();
 
 
     // Complete version

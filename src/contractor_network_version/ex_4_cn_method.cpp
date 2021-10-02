@@ -52,6 +52,8 @@ int main(int argc, char* argv[])
     ibex::CtcNotIn ctc_phi_simp_not(phi_simplified,X0_simplified);
 
     codac::CtcEval ctc_eval;
+    ctc_eval.preserve_slicing();
+    ctc_eval.set_fast_mode();
 
     // simplified version
     ContractorNetwork cn_simplified_out;
