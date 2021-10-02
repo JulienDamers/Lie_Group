@@ -20,33 +20,36 @@ using namespace pyibex;
 
 void example_3_continuous_article()
 {
-    Interval domain(0, 4);
-    double timestep = 0.01;
-    IntervalVector x0(2);
+    Interval domain(0, 4); // Define full integration time
+    double timestep = 0.01; // The timestep used for our integration
+    IntervalVector x0(2); // Initial condition for our reference
     x0[0] = Interval(0.5, 0.5);
     x0[1] = Interval(0, 0);
-    Function f("x", "y", "(x^3+x*y^2-x+y; y^3+x^2*y-x-y)");
+    Function f("x", "y", "(x^3+x*y^2-x+y; y^3+x^2*y-x-y)"); // Evolution function for our reference
     // CAPD integration version
-    TubeVector a = CAPD_integrateODE(domain, f, x0, timestep);
+    TubeVector a = CAPD_integrateODE(domain, f, x0, timestep); // Generating reference trajectory
     cout << "Reference generated " << a << endl;
 
     double epsilon = 0.01; // precision of the sivia
 
     IntervalVector X0({{0.4,  0.6},
-                       {-0.1, 0.1}}); // Starting box constraint
+                       {-0.1, 0.1}}); // Large initial box
     IntervalVector x({{-1.2, 1.2},
-                      {-1.2, 1.2}}); // Space to be explored
+                      {-1.2, 1.2}}); // Space to be explored with SIVIA algorithm
+
+    // Create our separator object
     lie_group_ex3_separator fullSep(&a, &X0);
     IntervalVector proj(1);
     proj[0] = Interval(0, 4);
     SepProj sepProj(fullSep, proj, 0.01);
 
+
+
     IntervalVector frame({{-1.2,1.2},{-1.2,1.2}});
     ipegenerator::Figure fig(frame,150,150);
 
-
     auto start = chrono::steady_clock::now();
-    sivia_article(x, sepProj, epsilon,fig);
+    sivia_article(x, sepProj, epsilon,fig); // Perform the SIVIA algorithm
     auto stop = chrono::steady_clock::now();
     cout << "elapsed time: " << chrono::duration_cast<chrono::milliseconds>(stop - start).count() << " ms" << endl;
 
@@ -56,7 +59,7 @@ void example_3_continuous_article()
     fig.set_opacity(30);
     fig.draw_box(X0, "green","green");
     fig.set_opacity(100);
-    fig.draw_tubeVector(&a,0,1,"black","black",ipegenerator::STROKE_AND_FILL);
+    fig.draw_tubeVector(&a,"a",0,1,"black","black",ipegenerator::STROKE_AND_FILL);
     fig.set_graduation_parameters(-1.5,0.5,-1.5,0.5);
     fig.set_number_digits_axis_x(1);
     fig.set_number_digits_axis_y(1);
@@ -119,7 +122,7 @@ void example_3_discrete_article()
     fig.set_opacity(30);
     fig.draw_box(X0, "green","green");
     fig.set_opacity(100);
-    fig.draw_tubeVector(&a,0,1,"black","black",ipegenerator::STROKE_AND_FILL);
+    fig.draw_tubeVector(&a,"a", 0,1,"black","black",ipegenerator::STROKE_AND_FILL);
     fig.set_graduation_parameters(-1.5,0.5,-1.5,0.5);
     fig.set_number_digits_axis_x(1);
     fig.set_number_digits_axis_y(1);

@@ -18,8 +18,8 @@ using namespace pyibex;
 
 void example_2_continuous_article()
 {
-    IntervalVector X0({{0,1},{0,1}});
-    IntervalVector x({{-1,10},{-1,3.2}});
+    IntervalVector X0({{0,1},{0,1}});  // The uncertain initial condition
+    IntervalVector x({{-1,10},{-1,3.2}}); // The space to explore with SIVIA algorithm
     ibex::Function phi("x1","x2","t","(x1-t;x2+cos(x1)-cos(x1-t) )");
     SepFwdBwd fullSep(phi,X0);
     double epsilon = 0.1;
@@ -152,19 +152,19 @@ void example_2_proof_reviewer_13(int i)
     fig.set_color_stroke("blue");
     fig.set_color_fill("blue");
     fig.set_color_type(ipegenerator::STROKE_AND_FILL);
-    fig.draw_tubeVector(&a1,0,1);
+    fig.draw_tubeVector(&a1,"a1",0,1);
     fig.set_color_stroke("green");
     fig.set_color_fill("green");
     fig.set_color_type(ipegenerator::STROKE_AND_FILL);
-    fig.draw_tubeVector(&a2,0,1);
+    fig.draw_tubeVector(&a2,"a2",0,1);
     fig.set_color_stroke("black");
     fig.set_color_fill("black");
     fig.set_color_type(ipegenerator::STROKE_AND_FILL);
-    fig.draw_tubeVector(&a3,0,1);
+    fig.draw_tubeVector(&a3,"a3",0,1);
     fig.set_color_stroke("red");
     fig.set_color_fill("red");
     fig.set_color_type(ipegenerator::STROKE_AND_FILL);
-    fig.draw_tubeVector(&a4,0,1);
+    fig.draw_tubeVector(&a4,"a4",0,1);
     fig.add_layer("text");
     fig.set_current_layer("text");
     fig.set_color_stroke("black");
@@ -249,10 +249,9 @@ int main (int argc, char* argv[])
 
     example_2_continuous_article();
     example_2_discrete_article();
+    comparison_sivia_capd();
 
-    //example_2_proof_reviewer_13(1000);
-    //comparison_sivia_capd();
-
+    // to create 1000 images to make a video
     //for (int i=0; i< 1000;i++)
     //{
     //    example_2_proof_reviewer_13(i);

@@ -67,7 +67,7 @@ void example_1_discrete_article()
 {
     IntervalVector X0({{0,1},{2,3}}); // The uncertain initial condition
 
-    IntervalVector x({{0,4},{-0.2,4}}); // The space to explore for the set inversion
+    IntervalVector x({{0,4},{-0.2,4}}); // The space to explore with SIVIA algorithm
 
     double epsilon = 0.1;
     // Generate the separator for the forward reach set
@@ -104,6 +104,7 @@ void example_1_discrete_article()
     auto start = chrono::steady_clock::now();
     sivia_article(x,usep,epsilon,fig); // Perform the set inversion algorithm
     auto stop = chrono::steady_clock::now();
+
     cout << "elapsed time: " << chrono::duration_cast<chrono::milliseconds>(stop - start).count() << " ms" <<endl;
     fig.set_opacity(30);
     fig.draw_box(X0,"green","green");

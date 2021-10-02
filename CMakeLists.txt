@@ -35,21 +35,7 @@ include_directories(${PKG_CAPD_INCLUDE_DIRS})
 find_package(ipegenerator REQUIRED)
 message(STATUS "Found ipegenerator")
 include_directories(${IPEGENERATOR_INCLUDE_DIRS})
-
-
-## Source files and headers definition
 ###########################################################
-# src bundles for executables
-
-set (SRC_EXAMPLE1_ARTICLE "src/optimum_speed/article_figures/example_1_article_form.cpp")
-set (SRC_EXAMPLE2_ARTICLE "src/optimum_speed/article_figures/example_2_article_form.cpp")
-set (SRC_EXAMPLE3_ARTICLE "src/optimum_speed/article_figures/example_3_article_form.cpp")
-set (SRC_EXAMPLE4_ARTICLE "src/optimum_speed/article_figures/example_4_article_form.cpp")
-
-
-
-
-
 
 set(LIBS ${IPEGENERATOR_LIBRARIES} ${CODAC_LIBRARIES} Ibex::ibex ${CODAC_LIBRARIES} ${PKG_CAPD_LDFLAGS})
 
@@ -59,10 +45,7 @@ set(LIBS ${IPEGENERATOR_LIBRARIES} ${CODAC_LIBRARIES} Ibex::ibex ${CODAC_LIBRARI
 
 set(LIBRARY_OUTPUT_PATH ${CMAKE_CURRENT_BINARY_DIR}/../lib)
 include_directories("src/tools")
-
-
-set(EXECUTABLE_OUTPUT_PATH bin)
-
+set(EXECUTABLE_OUTPUT_PATH ${CMAKE_CURRENT_BINARY_DIR}/bin)
 set(LIBS   tools ${LIBS} )
 
 
