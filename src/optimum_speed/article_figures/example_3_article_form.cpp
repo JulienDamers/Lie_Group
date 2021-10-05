@@ -27,7 +27,8 @@ void example_3_continuous_article()
     x0[1] = Interval(0, 0);
     Function f("x", "y", "(x^3+x*y^2-x+y; y^3+x^2*y-x-y)"); // Evolution function for our reference
     // CAPD integration version
-    TubeVector a = CAPD_integrateODE(domain, f, x0, timestep); // Generating reference trajectory
+    TubeVector a = CAPD_integrateODE(domain, f, x0, timestep);
+
     cout << "Reference generated " << a << endl;
 
     double epsilon = 0.01; // precision of the sivia
@@ -60,6 +61,11 @@ void example_3_continuous_article()
     fig.draw_box(X0, "green","green");
     fig.set_opacity(100);
     fig.draw_tubeVector(&a,"a",0,1,"black","black",ipegenerator::STROKE_AND_FILL);
+    fig.add_layer("text");
+    fig.set_current_layer("text");
+    fig.set_color_stroke("black");
+    fig.set_color_type(ipegenerator::STROKE_ONLY);
+    fig.draw_text("{\\large$\\mathbb{X}_0$}",0.5,0.,false);
     fig.set_graduation_parameters(-1.5,0.5,-1.5,0.5);
     fig.set_number_digits_axis_x(1);
     fig.set_number_digits_axis_y(1);
@@ -123,6 +129,15 @@ void example_3_discrete_article()
     fig.draw_box(X0, "green","green");
     fig.set_opacity(100);
     fig.draw_tubeVector(&a,"a", 0,1,"black","black",ipegenerator::STROKE_AND_FILL);
+    fig.add_layer("text");
+    fig.set_current_layer("text");
+    fig.set_color_stroke("black");
+    fig.set_color_type(ipegenerator::STROKE_ONLY);
+    fig.draw_text("{\\large$\\mathbb{X}_0$}",0.5,0.,false);
+    fig.draw_text("{\\large$\\mathbb{X}_1$}",0.45,0.7,false);
+    fig.draw_text("{\\large$\\mathbb{X}_2$}",-0.45,0.8,false);
+    fig.draw_text("{\\large$\\mathbb{X}_3$}",-0.95,0.1,false);
+    fig.draw_text("{\\large$\\mathbb{X}_4$}",-0.65,-0.75,false);
     fig.set_graduation_parameters(-1.5,0.5,-1.5,0.5);
     fig.set_number_digits_axis_x(1);
     fig.set_number_digits_axis_y(1);

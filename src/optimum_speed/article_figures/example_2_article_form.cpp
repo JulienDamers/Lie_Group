@@ -18,6 +18,16 @@ using namespace pyibex;
 
 void example_2_continuous_article()
 {
+    Interval domain(0, 8); // Define domain of work on which we want to integrate
+    double timestep = 0.1;
+    IntervalVector x0({{0., 0.},
+                         {0., 0.}}); // Define initial condition
+    Function f("x", "y", "(1;sin(x))"); // Evolution function to integrate
+    // Integration using CAPD
+    TubeVector a = CAPD_integrateODE(domain, f, x0, timestep);
+
+
+
     IntervalVector X0({{0,1},{0,1}});  // The uncertain initial condition
     IntervalVector x({{-1,10},{-1,3.2}}); // The space to explore with SIVIA algorithm
     ibex::Function phi("x1","x2","t","(x1-t;x2+cos(x1)-cos(x1-t) )");
@@ -41,11 +51,18 @@ void example_2_continuous_article()
     fig.set_opacity(30);
     fig.draw_box(X0,"green","green");
     fig.set_opacity(100);
+    codac::ColorMap colorMap_reference(codac::InterpolMode::RGB);
+    codac::rgb black= codac::make_rgb((float)0.,(float)0.,(float)0.);
+    codac::rgb colorBlind= codac::make_rgb((float)0.,(float)0.619,(float)0.451);
+    colorMap_reference.add_color_point(black,0);
+    colorMap_reference.add_color_point(colorBlind,1);
+    fig.draw_tubeVector(&a,"reference", 0, 1,&colorMap_reference,nullptr,ipegenerator::STROKE_AND_FILL,true);
+
     fig.add_layer("text");
     fig.set_current_layer("text");
     fig.set_color_stroke("black");
     fig.set_color_type(ipegenerator::STROKE_ONLY);
-    fig.draw_text("\\Huge\\mathbb{X}_0",0.4,0.5,true);
+    fig.draw_text("{\\Huge$\\mathbb{X}_0$}",0.45,0.45,false);
     fig.set_size_axis_graduation(18.0);
     fig.draw_axis("x1","x2");
     fig.save_ipe("example_2_continuous.ipe");
@@ -56,12 +73,24 @@ void example_2_continuous_article()
 
 void example_2_discrete_article()
 {
+
+
     IntervalVector X0({{0,1},{0,1}});
     IntervalVector x({{-1,10},{-1,3.2}});
     ibex::Function phi("x1","x2","t","(x1-t;x2+cos(x1)-cos(x1-t) )");
     SepFwdBwd* fullSep;
     fullSep = new SepFwdBwd(phi,X0);
     double epsilon = 0.1;
+
+    Interval domain(0, 8);
+    double timestep = 0.001;
+    // Generate the reference  as we do not have a analytical expression for it
+    Function f("x", "y", "(1;sin(x))");
+    // CAPD integration version
+    TubeVector a1 = CAPD_integrateODE(domain, f, IntervalVector({{0.0},{0.0}}), timestep);
+    TubeVector a2 = CAPD_integrateODE(domain, f, IntervalVector({{1,1},{1,1}}), timestep);
+    TubeVector a3 = CAPD_integrateODE(domain, f, IntervalVector({{0.0},{1.0}}), timestep);
+    TubeVector a4 = CAPD_integrateODE(domain, f, IntervalVector({{1.0},{0.0}}), timestep);
 
     vector<float> projection_times{0.,2.,4.,6.,8.};
 
@@ -93,11 +122,31 @@ void example_2_discrete_article()
     fig.set_opacity(30);
     fig.draw_box(X0,"green","green");
     fig.set_opacity(100);
+    fig.set_color_stroke("blue");
+    fig.set_color_fill("blue");
+    fig.set_color_type(ipegenerator::STROKE_AND_FILL);
+    fig.draw_tubeVector(&a1,"a1",0,1);
+    fig.set_color_stroke("green");
+    fig.set_color_fill("green");
+    fig.set_color_type(ipegenerator::STROKE_AND_FILL);
+    fig.draw_tubeVector(&a2,"a2",0,1);
+    fig.set_color_stroke("black");
+    fig.set_color_fill("black");
+    fig.set_color_type(ipegenerator::STROKE_AND_FILL);
+    fig.draw_tubeVector(&a3,"a3",0,1);
+    fig.set_color_stroke("red");
+    fig.set_color_fill("red");
+    fig.set_color_type(ipegenerator::STROKE_AND_FILL);
+    fig.draw_tubeVector(&a4,"a4",0,1);
     fig.add_layer("text");
     fig.set_current_layer("text");
     fig.set_color_stroke("black");
     fig.set_color_type(ipegenerator::STROKE_ONLY);
-    fig.draw_text("\\Huge\\mathbb{X}_0",0.4,0.5,true);
+    fig.draw_text("{\\Huge$\\mathbb{X}_0$}",0.45,0.45,false);
+    fig.draw_text("{\\Huge$\\mathbb{X}_2$}",2.45,2.2,false);
+    fig.draw_text("{\\Huge$\\mathbb{X}_4$}",4.45,1.6,false);
+    fig.draw_text("{\\Huge$\\mathbb{X}_6$}",6.45,0.40,false);
+    fig.draw_text("{\\Huge$\\mathbb{X}_8$}",8.45,1.9,false);
     fig.set_size_axis_graduation(18.0);
     fig.draw_axis("x1","x2");
     fig.save_ipe("example_2_discrete.ipe");
@@ -120,7 +169,6 @@ void example_2_proof_reviewer_13(int i)
     SepFwdBwd* fullSep;
     fullSep = new SepFwdBwd(phi,X0);
     double epsilon = 0.001;
-
     Interval domain(0, 8);
     double timestep = 0.001;
     // Generate the reference  as we do not have a analytical expression for it
@@ -169,7 +217,11 @@ void example_2_proof_reviewer_13(int i)
     fig.set_current_layer("text");
     fig.set_color_stroke("black");
     fig.set_color_type(ipegenerator::STROKE_ONLY);
-    fig.draw_text("\\Huge\\mathbb{X}_0",0.4,0.5,true);
+    fig.draw_text("{\\Huge$\\mathbb{X}_0$}",0.45,0.45,false);
+    fig.draw_text("{\\Huge$\\mathbb{X}_2$}",2.45,2.3,false);
+    fig.draw_text("{\\Huge$\\mathbb{X}_4$}",4.45,1.7,false);
+    fig.draw_text("{\\Huge$\\mathbb{X}_6$}",6.45,0.45,false);
+    fig.draw_text("{\\Huge$\\mathbb{X}_8$}",8.45,2.2,false);
     fig.set_size_axis_graduation(18.0);
     fig.draw_axis("x1","x2");
 
@@ -224,10 +276,7 @@ void comparison_sivia_capd()
     fig.set_color_stroke("black");
     fig.set_color_type(ipegenerator::STROKE_ONLY);
     fig.draw_text("{\\Huge$\\mathbb{X}_0$}",0.45,0.45,false);
-    fig.draw_text("{\\Huge$\\mathbb{X}_2$}",2.45,2.3,false);
-    fig.draw_text("{\\Huge$\\mathbb{X}_4$}",4.45,1.7,false);
-    fig.draw_text("{\\Huge$\\mathbb{X}_6$}",6.45,0.45,false);
-    fig.draw_text("{\\Huge$\\mathbb{X}_8$}",8.45,2.2,false);
+    fig.draw_text("{\\Huge$\\mathbb{X}_8$}",8.45,1.9,false);
     fig.set_size_axis_graduation(18.0);
     fig.draw_axis("x1","x2");
     fig.save_ipe("comparison_sivia_capd.ipe");
