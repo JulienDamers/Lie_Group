@@ -37,7 +37,7 @@ void reachability()
     reference[1] = a_lie_4[1];
     reference[2] = a_lie_4[2];
 
-    double epsilon = 0.01;
+    double epsilon = timestep_4;
 
     IntervalVector X0(3);
     X0[0] = Interval(-0.1,0.1);
@@ -57,13 +57,14 @@ void reachability()
     fig_4.set_number_digits_axis_y(1);
 
     auto start = chrono::steady_clock::now();
-    sivia_article(x,sepProj,epsilon,fig_4);
+    //sivia_article(x,sepProj,epsilon,fig_4);
     auto stop = chrono::steady_clock::now();
     cout << "elapsed time: " << chrono::duration_cast<chrono::milliseconds>(stop - start).count() << " ms" <<endl;
 
 
-
-
+    /*
+     * Generating contractors related to Lie symmetries constraints
+     */
 
     ibex::CtcFwdBwd ctc_sub(*new ibex::Function("x[4]", "y[3]", "z", "x[3]-y[2]-z"));
     ibex::Function phi("x[4]","w[3]","b","( x[1] + cos(b) * (-w[0]) - sin(b) * (-w[1]) - [-0.1,0.1]; x[2] + sin(b) * (-w[0]) + cos(b) * (-w[1]) - [-0.1,0.1]; b - [-0.4,0.4] )");
@@ -71,8 +72,6 @@ void reachability()
     codac::CtcEval ctc_eval;
     ctc_eval.preserve_slicing(true);
     ctc_eval.set_fast_mode();
-
-
 
     ContractorNetwork cn_simplified_out_4;
     IntervalVectorVar box_simp_out_4(4);
@@ -82,47 +81,79 @@ void reachability()
     cn_simplified_out_4.add(ctc_sub, {box_simp_out_4, w_simp_out_4, beta_simp_out_4});
     cn_simplified_out_4.add(ctc_phi, {box_simp_out_4, w_simp_out_4, beta_simp_out_4});
     ctc_cn ctc_cn_out_4(&cn_simplified_out_4, &box_simp_out_4);
-    CtcStatic ctc_static(ctc_cn_out_4,true);
+    CtcStatic ctc_lie_static(ctc_cn_out_4,true);
 
-    // Initialising output tube
-    TubeVector x_total_4(Interval(0,15), timestep_4,3);
-    TubeVector x_unreachable(Interval(0,15), timestep_4,3);
+
+    /*
+     * Applying only Lie Constraint
+     */
     TubeVector x_lie_4(Interval(0,15), timestep_4,3);
-
-    // Generating derivative of output tube
-    TFunction tf_4("(t;t; sin(0.4*t))");
-    TubeVector v_lie_4(Interval(0,15),timestep_4, tf_4); // derivative of tune to contract
-    v_lie_4[0] = cos(x_total_4[2]);
-    v_lie_4[1] = sin(x_total_4[2]);
-    TubeVector v_lie_4_unreachable(Interval(0,15),timestep_4, tf_4); // derivative of tune to contract
+    ctc_lie_static.contract(x_lie_4);
 
 
 
+    /*
+     * Proving an area will be reached no matter our uncertainties
+     */
+    TubeVector x_reachable_4(Interval(0,15), timestep_4,3);
 
-    Interval time_domain = x_total_4.tdomain();
-    IntervalVector to_reach({Interval::ALL_REALS,Interval::ALL_REALS,Interval::ALL_REALS});
-    Function f_reachable("x[2]","(sqrt((x[0]-0.6)^2+(x[1]-0.45)^2)-0.1)");
-    //Function f_unreachable("x[2]","(sqrt((x[0]-0.6)^2+(x[1]-0.6)^2)-0.1)"); uncomment for an unreachable area
-    CtcFunction ctc_circle(f_reachable);
+    Function f_reachable("x[4]","( (x[0]-2.2)^2 + (x[1]-2.2)^2 )");
+    CtcNotIn ctc_reachable(f_reachable,Interval(0,3));
+    CtcStatic ctc_reachable_static(ctc_reachable,true);
 
-
-    // Main contractor network reachability
-    ContractorNetwork cn_total;
-    cn_total.add(ctc_static,{x_total_4}); // lie constraint
-    cn_total.add(ctc_circle,{to_reach[0],to_reach[1]}); // circle constraint
-    cn_total.add(ctc_eval,{time_domain,to_reach,x_total_4,v_lie_4}); // box to reach
-
+    // Main contractor network reachability in
+    ContractorNetwork cn_reachable;
+    cn_reachable.add(ctc_lie_static,{x_reachable_4}); // lie constraint
+    cn_reachable.add(ctc_reachable_static,{x_reachable_4}); // circle constraint
 
 
     start = chrono::steady_clock::now();
-    cn_total.contract(true);
+    cn_reachable.contract(true); //Should return an empty tube (no trajectory not going through area)
     stop = chrono::steady_clock::now();
-    cout << "Reachability ex 4 processed in : "
+    cout << "Reachability for reachable area processed in : "
          << chrono::duration_cast<chrono::milliseconds>(stop - start).count() << " ms" << endl;
 
 
-    ctc_static.contract(x_lie_4);
+    /*
+     * Proving an area will not be reached no matter our uncertainties
+     */
 
+    TubeVector x_unreachable_4(Interval(0,15), timestep_4,3);
+    // Generating derivative of output tube x_unreachable_4
+    TFunction tf_4("(t;t; sin(0.4*t))");
+    TubeVector v_lie_4(Interval(0,15),timestep_4, tf_4); // derivative of tube to contract
+    v_lie_4[0] = cos(x_unreachable_4[2]);
+    v_lie_4[1] = sin(x_unreachable_4[2]);
+
+    Function f_unreachable("x[3]","( (x[0]-0.65)^2 + (x[1]-0.63)^2 - 0.01 )");
+    CtcFunction ctc_unreachable(f_unreachable);
+
+    IntervalVector to_reach(3);  // intermediate variable;
+    Interval time_to_reach(x_unreachable_4.tdomain());
+
+    ContractorNetwork cn_unreachable;
+    cn_unreachable.add(ctc_lie_static,{x_unreachable_4}); // lie constraint
+    cn_unreachable.add(ctc_unreachable,{to_reach}); // circle constraint
+    cn_unreachable.add(ctc_eval,{time_to_reach, to_reach,x_unreachable_4,v_lie_4});
+
+    start = chrono::steady_clock::now();
+    cn_unreachable.contract(true); //Should return an empty tube (no trajectory going through area)
+    stop = chrono::steady_clock::now();
+    cout << "Reachability for an unreachable area processed in : "
+         << chrono::duration_cast<chrono::milliseconds>(stop - start).count() << " ms" << endl;
+
+
+    // Loading Flow* integration
+    cout << "Flow* integration reachability processed in : "
+         <<  6000 << " ms"
+         << endl;
+    TubeVector x_flow_reachability("/home/julien-damers/Shared_Data/Perso/Thesis/CPP_WORKSPACE/SCHOLAR/Lie_Group/src/comparisons_review_2/flow_star_reachability.tube");
+
+    fig_4.set_color_stroke("black");
+    fig_4.set_color_fill("colorBlind1");
+    fig_4.set_opacity(50);
+    fig_4.set_color_type(ipegenerator::STROKE_AND_FILL);
+    fig_4.draw_tubeVector(&x_flow_reachability,"flow", 0, 1);
 
     codac::ColorMap colorMap_lie(codac::InterpolMode::RGB);
     codac::rgb yellow= codac::make_rgb((float)1.,(float)1.,(float)0.);
@@ -132,13 +163,6 @@ void reachability()
     fig_4.set_opacity(5);
     fig_4.draw_tubeVector(&x_lie_4,"x_lie", 0, 1, &colorMap_lie);
 
-    codac::ColorMap colorMap(codac::InterpolMode::RGB);
-    codac::rgb red= codac::make_rgb((float)1.,(float)0.,(float)0.);
-    codac::rgb green= codac::make_rgb((float)0.,(float)1.,(float)0.);
-    colorMap.add_color_point(red,0);
-    colorMap.add_color_point(green,1);
-    fig_4.set_opacity(5);
-    fig_4.draw_tubeVector(&x_total_4,"x_total", 0, 1, &colorMap);
 
     fig_4.add_layer("reached");
     fig_4.set_current_layer("reached");
@@ -146,9 +170,10 @@ void reachability()
     fig_4.set_color_stroke("green");
     fig_4.set_color_fill("green");
     fig_4.set_color_type(ipegenerator::STROKE_AND_FILL);
-    fig_4.draw_circle(0.6,0.45,0.1);
+    fig_4.draw_circle(2.2,2.2,sqrt(3));
 
     fig_4.draw_tubeVector(&a_lie_4,"a_lie",0,1,"black","black",ipegenerator::STROKE_AND_FILL);
+
 
     // To check with unreachable area
     fig_4.add_layer("unreachable");
@@ -156,8 +181,7 @@ void reachability()
     fig_4.set_color_stroke("red");
     fig_4.set_color_fill("red");
     fig_4.set_color_type(ipegenerator::STROKE_AND_FILL);
-    fig_4.draw_circle(0.6,0.6,0.1);
-
+    fig_4.draw_circle(0.65,0.63,0.1);
 
     fig_4.set_current_layer("data");
     fig_4.set_opacity(30);
@@ -171,6 +195,16 @@ void reachability()
     fig_4.draw_axis("x1", "x2");
     fig_4.save_ipe("reachability_static.ipe");
     fig_4.save_pdf("reachability_static.pdf");
+
+
+
+
+    //IntervalVector frame_tube({{0,15},{-4,4}});
+    //ipegenerator::Figure fig_tube(frame,150,150);
+    //fig_tube.set_graduation_parameters(-4, 0.5, -4, 0.5);
+    //fig_tube.set_number_digits_axis_x(1);
+    //fig_tube.set_number_digits_axis_y(1);
+
 
 
 }
