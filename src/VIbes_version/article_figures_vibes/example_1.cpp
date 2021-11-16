@@ -46,6 +46,7 @@ void example_1_continous()
     // Visuals initialization
     VIBesFigMap fig_map("Example 1 continuous");
     fig_map.set_properties(50,50,800,464);
+    fig_map.axis_limits(x);
     auto start = chrono::steady_clock::now();
     sivia(x,sepProj,epsilon); // Perform the set inversion algorithm
     auto stop = chrono::steady_clock::now();
@@ -107,6 +108,7 @@ void example_1_discrete()
     // Visuals initialization
     VIBesFigMap fig_map("Example 1 discrete");
     fig_map.set_properties(50,50,800,464);
+    fig_map.axis_limits(x);
 
     auto start = chrono::steady_clock::now();
     sivia(x,usep,epsilon); // Perform the set inversion algorithm
