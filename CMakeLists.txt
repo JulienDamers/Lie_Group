@@ -24,13 +24,7 @@ find_package(Eigen3 REQUIRED NO_MODULE)
 include_directories(${EIGEN3_INCLUDE_DIRS})
 
 ###########################################################
-# CAPD package
-find_package(PkgConfig REQUIRED)
-pkg_search_module(PKG_CAPD REQUIRED  capd capd-gui mpcapd mpcapd-gui capdRedHom )  # this looks for .pc file
-message(STATUS "Found CAPD")
-include_directories(${PKG_CAPD_INCLUDE_DIRS})
-
-set(LIBS ${IPEGENERATOR_LIBRARIES} ${CODAC_LIBRARIES} Ibex::ibex ${CODAC_LIBRARIES} ${PKG_CAPD_LDFLAGS})
+set(LIBS ${IPEGENERATOR_LIBRARIES} ${CODAC_LIBRARIES} Ibex::ibex ${CODAC_LIBRARIES} )
 
 
 ###########################################################
@@ -40,6 +34,14 @@ if(IPE)
     message(STATUS "Found ipegenerator")
     include_directories(${IPEGENERATOR_INCLUDE_DIRS})
     set(LIBS ${IPEGENERATOR_LIBRARIES} ${LIBS})
+
+
+    # CAPD package
+    find_package(PkgConfig REQUIRED)
+    pkg_search_module(PKG_CAPD REQUIRED  capd capd-gui mpcapd mpcapd-gui capdRedHom )  # this looks for .pc file
+    message(STATUS "Found CAPD")
+    include_directories(${PKG_CAPD_INCLUDE_DIRS})
+    set(LIBS ${LIBS} ${PKG_CAPD_LDFLAGS})
 endif()
 ###########################################################
 
