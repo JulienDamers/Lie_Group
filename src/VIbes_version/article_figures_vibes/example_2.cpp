@@ -111,7 +111,7 @@ void example_2_discrete()
 
     beginDrawing();
 
-    VIBesFigMap fig_map("Example 2 continuous");
+    VIBesFigMap fig_map("Example 2 discrete");
     fig_map.set_properties(50,50,800,368);
     fig_map.axis_limits(x);
     auto start = chrono::steady_clock::now();
