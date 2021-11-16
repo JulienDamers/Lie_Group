@@ -49,7 +49,7 @@ void lie_group_ex4_separator::separate(ibex::IntervalVector &Xin, ibex::Interval
         Xout[3].set_empty();
         return;
     }
-    z = z & (*reference)(x4);
+    z = z & (*reference)(-x4);
     if (z[0].is_empty()||z[1].is_empty()||z[2].is_empty()||z[3].is_empty())
     {
         Xout[0].set_empty();
@@ -113,8 +113,8 @@ void lie_group_ex4_separator::separate(ibex::IntervalVector &Xin, ibex::Interval
     wout[2] = fullBoxOut[8];
 
 
-    x4 = x4 & reference->invert(z,x4);
-    x4out = x4out & reference->invert(zout,x4out);
+    x4 = x4 & -(reference->invert(z,-x4));
+    x4out = x4out & -(reference->invert(zout,-x4out));
 
 
     assert((x4|x4out) == Xinit[3]);
