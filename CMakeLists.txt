@@ -30,14 +30,19 @@ pkg_search_module(PKG_CAPD REQUIRED  capd capd-gui mpcapd mpcapd-gui capdRedHom 
 message(STATUS "Found CAPD")
 include_directories(${PKG_CAPD_INCLUDE_DIRS})
 
+set(LIBS ${IPEGENERATOR_LIBRARIES} ${CODAC_LIBRARIES} Ibex::ibex ${CODAC_LIBRARIES} ${PKG_CAPD_LDFLAGS})
+
+
 ###########################################################
-# Ipegenerator
-find_package(ipegenerator REQUIRED)
-message(STATUS "Found ipegenerator")
-include_directories(${IPEGENERATOR_INCLUDE_DIRS})
+if(IPE)
+    # Ipegenerator
+    find_package(ipegenerator REQUIRED)
+    message(STATUS "Found ipegenerator")
+    include_directories(${IPEGENERATOR_INCLUDE_DIRS})
+    set(LIBS ${IPEGENERATOR_LIBRARIES} ${LIBS})
+endif()
 ###########################################################
 
-set(LIBS ${IPEGENERATOR_LIBRARIES} ${CODAC_LIBRARIES} Ibex::ibex ${CODAC_LIBRARIES} ${PKG_CAPD_LDFLAGS})
 
 ## Executables/Libs creation
 ###########################################################
