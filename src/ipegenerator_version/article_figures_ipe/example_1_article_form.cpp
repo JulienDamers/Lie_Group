@@ -28,6 +28,7 @@ void example_1_continuous_article()
     Function f("x1","x2","(1; -x2)"); // Evolution function to integrate
     // CAPD integration version
     TubeVector a = CAPD_integrateODE(domain,f,x0,timestep); // The reference
+    cout << "Reference generated " << a << endl;
 
     IntervalVector X0({{0,1},{2,3}}); // The uncertain initial condition
 
@@ -92,7 +93,7 @@ void example_1_discrete_article()
     IntervalVector x0({{0,0},{1,1}});
     Function f("x1","x2","(1; -x2)");
     TubeVector a = CAPD_integrateODE(domain,f,x0,timestep);
-
+    cout << "Reference generated " << a << endl;
 
 
     IntervalVector X0({{0,1},{2,3}});
