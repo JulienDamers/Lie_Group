@@ -26,7 +26,7 @@ To compile most of these you will need the following:
   it will create a .pdf and .ipe (XML) files. You can open the .ipe file with [IPE](https://ipe.otfried.org/) to edit it.
 
 
-## Python
+## Python (in progress)
 
 ### Repl.it
 
