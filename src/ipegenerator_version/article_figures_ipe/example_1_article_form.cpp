@@ -106,19 +106,20 @@ void example_1_discrete_article()
     fullSep = new SepFwdBwd(phi,X0);
 
     // Define the different times on which we want to integrate
-    vector<float> projection_times{0.,-1.,-2.,-3.,-4.,-5.};
+    vector<Interval*> projections{
+        new Interval(0.),
+        new Interval(-1.),
+        new Interval(-2.),
+        new Interval(-3.),
+        new Interval(-4.),
+        new Interval(-5.)};
 
 
     vector<Sep*> seps;
-    vector<IntervalVector*> projections;
-    for (size_t i=0;i<projection_times.size();i++) // Generate the separator for each individual time
+    for (size_t i=0;i<projections.size();i++) // Generate the separator for each individual time
     {
-        IntervalVector *proj = new IntervalVector(1); // Defining time interval for projection
-        (*proj)[0] = Interval(projection_times[i],projection_times[i]);
-        projections.push_back(proj);
-        SepProj *sepProj = new SepProj(*fullSep,*proj,epsilon);
+        SepProj *sepProj = new SepProj(*fullSep,*(projections[i]),epsilon);
         seps.push_back(sepProj);
-
     }
     Array<Sep> ar_sep(seps);
     SepUnion usep (ar_sep); // Create the union of all separators
