@@ -8,10 +8,10 @@
 #include "ibex.h"
 #include "codac.h"
 
-    class ctc_cn : public ibex::Ctc
+    class CtcCn : public ibex::Ctc
     {
         public:
-            ctc_cn(codac::ContractorNetwork *cn, codac::IntervalVectorVar *box);
+            CtcCn(codac::ContractorNetwork *cn, codac::IntervalVectorVar *box);
             void contract(ibex::IntervalVector& x);
             //void contract(codac::TubeVector& x);
             bool check_empty(ibex::IntervalVector& x);

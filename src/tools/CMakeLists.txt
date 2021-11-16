@@ -1,7 +1,5 @@
 list(APPEND SRC_TOOLS_LIB
         "tools.h"
-        "lie_group_ex3_separator.h"
-        "lie_group_ex3_separator.cpp"
         "lie_group_ex4_separator.h"
         "lie_group_ex4_separator.cpp"
         "pyibex_SepProj.h"
