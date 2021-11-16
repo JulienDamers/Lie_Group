@@ -44,6 +44,7 @@ void example_2_continuous()
 
     VIBesFigMap fig_map("Example 2 continuous");
     fig_map.set_properties(50,50,800,368);
+    fig_map.axis_limits(x);
 
     auto start = chrono::steady_clock::now();
     sivia(x,sepProj,epsilon);
@@ -112,6 +113,7 @@ void example_2_discrete()
 
     VIBesFigMap fig_map("Example 2 continuous");
     fig_map.set_properties(50,50,800,368);
+    fig_map.axis_limits(x);
     auto start = chrono::steady_clock::now();
     sivia(x,usep,epsilon);
     auto stop = chrono::steady_clock::now();
