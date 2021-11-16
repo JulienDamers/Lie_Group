@@ -18,12 +18,15 @@ To compile most of these you will need the following:
 ### Visualization
 - [OPTION 1] (default)  [VIBes](https://enstabretagnerobotics.github.io/VIBES/) for quicker 
   visualization. Open the VIBes viewer **and then** run the example to see the figure appearing
-- 
+
 - [OPTION 2] the [ipegenerator](https://github.com/JulienDamers/ipe_generator) library if you 
   want to compile the codes used to create the figures of the article  (placed in 
-  src/ipegenerator_version/article_figures). use cmake option -DIPE=ON if you want to use this 
-  version. As mentioned above you need to install ipegenerator library for this option. When run 
-  it will create a .pdf and .ipe (XML) files. You can open the .ipe file with [IPE](https://ipe.otfried.org/) to edit it.
+  src/ipegenerator_version/article_figures). Use the cmake option __-DIPE=ON__ if you want to use 
+  this 
+  version. As mentioned above you need to install [ipegenerator](https://github.com/JulienDamers/ipe_generator) 
+  and [CAPD](http://capd.ii.uj.edu.pl/) libraries for this  option. When run, it will create a 
+  .pdf and .ipe (XML) files. You can open the .ipe file with [IPE](https://ipe.otfried.org/) to 
+  edit it.
 
 
 ## Python (in progress)
