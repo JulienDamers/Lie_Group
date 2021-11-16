@@ -25,6 +25,7 @@ void example_2_continuous_article()
                          {0., 0.}});
     Function f("x", "y", "(1;sin(x))");
     TubeVector a = CAPD_integrateODE(domain, f, x0, timestep);
+    cout << "Reference generated " << a << endl;
 
     double epsilon = timestep;
 
