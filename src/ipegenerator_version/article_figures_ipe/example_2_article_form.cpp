@@ -94,16 +94,17 @@ void example_2_discrete_article()
 
     SepFwdBwd* fullSep;
     fullSep = new SepFwdBwd(phi,X0);
-    vector<float> projection_times{0.,-2.,-4.,-6.,-8.};
+    vector<Interval*> projections{
+        new Interval(0),
+        new Interval(-2),
+        new Interval(-4),
+        new Interval(-6),
+        new Interval(-8)};
 
     vector<Sep*> seps;
-    vector<IntervalVector*> projections;
-    for (size_t i=0;i<projection_times.size();i++)
+    for (size_t i=0;i<projections.size();i++)
     {
-        IntervalVector *proj = new IntervalVector(1); // Defining interval to project
-        (*proj)[0] = Interval(projection_times[i],projection_times[i]);
-        projections.push_back(proj);
-        SepProj *sepProj = new SepProj(*fullSep,*proj,epsilon);
+        SepProj *sepProj = new SepProj(*fullSep,*(projections[i]),epsilon);
         seps.push_back(sepProj);
 
     }
