@@ -24,8 +24,8 @@ void example_1_continuous_article()
 {
     Interval domain(0,5); // Integration time of the reference, must be > proj
     double timestep = 0.01; // Time step for the creation of the reference
-    IntervalVector x0({{0,0},{1,1}});
-    Function f("x1","x2","(1; -x2)");
+    IntervalVector x0({{0,0},{1,1}}); // Initial condition for reference
+    Function f("x1","x2","(1; -x2)"); // Evolution function to integrate
     // CAPD integration version
     TubeVector a = CAPD_integrateODE(domain,f,x0,timestep); // The reference
 
@@ -36,7 +36,7 @@ void example_1_continuous_article()
     double epsilon = timestep; // define accuracy of paving
 
     // Generate the separator for the forward reach set
-    ibex::Function phi("x1","x2","t","(x1+t;x2/exp(t))");
+    ibex::Function phi("x1","x2","t","(x1+t;x2/exp(t))"); // define transformation function
     SepFwdBwd fullSep(phi,X0); // Create the separator on Phi with X0 as constraint
     IntervalVector proj(1);
     proj[0] = Interval(-5,0); // Define the interval of time on which we want to integrate
@@ -86,19 +86,18 @@ void example_1_continuous_article()
 
 void example_1_discrete_article()
 {
+    // Generate reference
     Interval domain(0,5);
     double timestep = 0.01;
     IntervalVector x0({{0,0},{1,1}});
     Function f("x1","x2","(1; -x2)");
-    // CAPD integration version
     TubeVector a = CAPD_integrateODE(domain,f,x0,timestep);
 
-    IntervalVector X0({{0,1},{2,3}}); // The uncertain initial condition
 
-    IntervalVector x({{-0.1,6.5},{-0.2,3.5}}); // The space to explore with SIVIA algorithm
 
+    IntervalVector X0({{0,1},{2,3}});
+    IntervalVector x({{-0.1,6.5},{-0.2,3.5}});
     double epsilon = timestep;
-
 
     // Generate the separator for the forward reach set
     ibex::Function phi("x1","x2","t","(x1+t;x2/exp(t))");
@@ -113,7 +112,7 @@ void example_1_discrete_article()
     vector<IntervalVector*> projections;
     for (size_t i=0;i<projection_times.size();i++) // Generate the separator for each individual time
     {
-        IntervalVector *proj = new IntervalVector(1); // Defining interval to project
+        IntervalVector *proj = new IntervalVector(1); // Defining time interval for projection
         (*proj)[0] = Interval(projection_times[i],projection_times[i]);
         projections.push_back(proj);
         SepProj *sepProj = new SepProj(*fullSep,*proj,epsilon);
