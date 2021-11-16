@@ -21,7 +21,7 @@ using namespace pyibex;
 void example_1_continuous_article()
 {
     Interval domain(0,5);
-    double timestep = 0.001;
+    double timestep = 0.01;
     IntervalVector x0({{0,0},{1,1}});
     Function f("x1","x2","(1; -x2)");
     // CAPD integration version
@@ -31,19 +31,19 @@ void example_1_continuous_article()
 
     IntervalVector x({{-0.1,6.5},{-0.2,3.5}}); // The space to explore for the set inversion
 
-    double epsilon = 0.1;
+    double epsilon = timestep;
     // Generate the separator for the forward reach set
 
-    ibex::Function phi("x1","x2","t","(x1-t;x2*exp(t))");
+    ibex::Function phi("x1","x2","t","(x1+t;x2/exp(t))");
     SepFwdBwd fullSep(phi,X0);
     IntervalVector proj(1);
-    proj[0] = Interval(0,5);
+    proj[0] = Interval(-5,0);
     SepProj sepProj(fullSep,proj,epsilon);
 
 
     IntervalVector frame({{-0.1,6.5},{-0.3,3.5}});
-    ipegenerator::Figure fig(frame,300,300);
-    fig.set_graduation_parameters(0,0.5,-0.2,0.5);
+    ipegenerator::Figure fig(frame,150,87);
+    fig.set_graduation_parameters(0,1,0,1);
     fig.set_number_digits_axis_x(1);
     fig.set_number_digits_axis_y(1);
 
@@ -66,8 +66,8 @@ void example_1_continuous_article()
     fig.set_current_layer("text");
     fig.set_color_stroke("black");
     fig.set_color_type(ipegenerator::STROKE_ONLY);
-    fig.draw_text("{\\Huge$\\mathbb{X}_0$}",0.4,2.5,false);
-    fig.draw_axis("x1","x2");
+    fig.draw_text("{\\Large$\\mathbb{X}_0$}",0.4,2.5,false);
+    fig.draw_axis("x_1","x_2");
     fig.save_ipe("example_1_continuous.ipe");
     fig.save_pdf("example_1_continuous.pdf");
 
@@ -79,7 +79,7 @@ void example_1_continuous_article()
 void example_1_discrete_article()
 {
     Interval domain(0,5);
-    double timestep = 0.001;
+    double timestep = 0.01;
     IntervalVector x0({{0,0},{1,1}});
     Function f("x1","x2","(1; -x2)");
     // CAPD integration version
@@ -89,14 +89,14 @@ void example_1_discrete_article()
 
     IntervalVector x({{-0.1,6.5},{-0.2,3.5}}); // The space to explore with SIVIA algorithm
 
-    double epsilon = 0.1;
+    double epsilon = timestep;
     // Generate the separator for the forward reach set
 
-    ibex::Function phi("x1","x2","t","(x1-t;x2*exp(t))");
+    ibex::Function phi("x1","x2","t","(x1+t;x2/exp(t))");
     SepFwdBwd* fullSep;
     fullSep = new SepFwdBwd(phi,X0);
 
-    vector<float> projection_times{0.,1.,2.,3.,4.,5.};
+    vector<float> projection_times{0.,-1.,-2.,-3.,-4.,-5.};
 
     vector<Sep*> seps;
     vector<IntervalVector*> projections;
@@ -114,8 +114,8 @@ void example_1_discrete_article()
 
 
     IntervalVector frame({{-0.1,6.5},{-0.3,3.5}});
-    ipegenerator::Figure fig(frame,300,300);
-    fig.set_graduation_parameters(0,0.5,-0.2,0.5);
+    ipegenerator::Figure fig(frame,150,87);
+    fig.set_graduation_parameters(0,1,0,1);
     fig.set_number_digits_axis_x(1);
     fig.set_number_digits_axis_y(1);
 
@@ -139,13 +139,13 @@ void example_1_discrete_article()
     fig.set_current_layer("text");
     fig.set_color_stroke("black");
     fig.set_color_type(ipegenerator::STROKE_ONLY);
-    fig.draw_text("{\\Huge$\\mathbb{X}_0$}",0.4,2.5,false);
-    fig.draw_text("{\\Huge$\\mathbb{X}_1$}",1.45,0.9,false);
-    fig.draw_text("{\\Huge$\\mathbb{X}_2$}",2.45,0.3,false);
-    fig.draw_text("{\\Huge$\\mathbb{X}_3$}",3.45,0.1,false);
-    fig.draw_text("{\\Huge$\\mathbb{X}_4$}",4.45,0.05,false);
-    fig.draw_text("{\\Huge$\\mathbb{X}_5$}",5.45,0.0,false);
-    fig.draw_axis("x1","x2");
+    fig.draw_text("{\\Large$\\mathbb{X}_0$}",0.4,2.5,false);
+    fig.draw_text("{\\Large$\\mathbb{X}_1$}",1.45,0.9,false);
+    fig.draw_text("{\\Large$\\mathbb{X}_2$}",2.45,0.3,false);
+    fig.draw_text("{\\Large$\\mathbb{X}_3$}",3.45,0.1,false);
+    fig.draw_text("{\\Large$\\mathbb{X}_4$}",4.45,0.05,false);
+    fig.draw_text("{\\Large$\\mathbb{X}_5$}",5.45,0.0,false);
+    fig.draw_axis("x_1","x_2");
     fig.save_ipe("example_1_discrete.ipe");
     fig.save_pdf("example_1_discrete.pdf");
 
