@@ -1,3 +1,3 @@
 add_subdirectory(article_figures_vibes)
-#add_subdirectory(contractor_network_version_vibes)
-#add_subdirectory(integration_vibes)
+add_subdirectory(contractor_network_version_vibes)
+add_subdirectory(integration_vibes)
