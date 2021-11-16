@@ -13,18 +13,11 @@ target_compile_options(reachability PUBLIC ${CODAC_CXX_FLAGS})
 target_include_directories(reachability PUBLIC ${CODAC_INCLUDE_DIRS} ${PKG_CAPD_INCLUDE_DIRS})
 target_link_libraries(reachability PUBLIC ${LIBS})
 
-add_executable(lohner_test lohner_ex_4_point.cpp)
-target_compile_options(lohner_test PUBLIC ${CODAC_CXX_FLAGS})
-target_include_directories(lohner_test PUBLIC ${CODAC_INCLUDE_DIRS} ${PKG_CAPD_INCLUDE_DIRS})
-target_link_libraries(lohner_test PUBLIC ${LIBS})
 
-add_executable(collins collins.cpp)
-target_compile_options(collins PUBLIC ${CODAC_CXX_FLAGS})
-target_include_directories(collins PUBLIC ${CODAC_INCLUDE_DIRS} ${PKG_CAPD_INCLUDE_DIRS})
-target_link_libraries(collins PUBLIC ${LIBS})
+#add_executable(collins collins.cpp)
+#target_compile_options(collins PUBLIC ${CODAC_CXX_FLAGS})
+#target_include_directories(collins PUBLIC ${CODAC_INCLUDE_DIRS} ${PKG_CAPD_INCLUDE_DIRS})
+#target_link_libraries(collins PUBLIC ${LIBS})
 
-add_executable(domain_ex_3 domain_ex_3.cpp)
-target_compile_options(domain_ex_3 PUBLIC ${CODAC_CXX_FLAGS})
-target_include_directories(domain_ex_3 PUBLIC ${CODAC_INCLUDE_DIRS} ${PKG_CAPD_INCLUDE_DIRS})
-target_link_libraries(domain_ex_3 PUBLIC ${LIBS})
+
 
