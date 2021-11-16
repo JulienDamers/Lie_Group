@@ -37,7 +37,7 @@ void sivia(IntervalVector& map, Sep& Sep, double epsilon)
         }
         else if (boxIn[0].is_empty() && boxIn[1].is_empty())
         {
-            drawBox(box[0].lb(),box[0].ub(), box[1].lb(),box[1].ub(), "#D55E00[#CC79A7]");
+            drawBox(box[0].lb(),box[0].ub(), box[1].lb(),box[1].ub(), "grey[white]");
         }
         else
         {
@@ -51,13 +51,13 @@ void sivia(IntervalVector& map, Sep& Sep, double epsilon)
             }
             else
             {
-                drawBox(box[0].lb(),box[0].ub(),box[1].lb(),box[1].ub(),"#E69F00[#F0E442]");
+                drawBox(box[0].lb(),box[0].ub(),box[1].lb(),box[1].ub(),"#D55E00[#CC79A7]");
 
             }
         }
 
     }
-    cout << bisections << " bisectionss have been done" << endl;
+    cout << bisections << " bisections have been done" << endl;
 }
 
 void sivia(IntervalVector& map, Ctc& Ctc, double epsilon)
@@ -77,7 +77,7 @@ void sivia(IntervalVector& map, Ctc& Ctc, double epsilon)
         Ctc.contract(boxOut);
         if (boxOut[0].is_empty() && boxOut[1].is_empty())
         {
-            drawBox(box[0].lb(),box[0].ub(), box[1].lb(),box[1].ub(), "b[#648FFF]");
+            drawBox(box[0].lb(),box[0].ub(), box[1].lb(),box[1].ub(), "#009E73[#56B4E9]");
         }
         else
         {
@@ -91,7 +91,7 @@ void sivia(IntervalVector& map, Ctc& Ctc, double epsilon)
             }
             else
             {
-                drawBox(box[0].lb(),box[0].ub(),box[1].lb(),box[1].ub(),"y[#FFB000]");
+                drawBox(box[0].lb(),box[0].ub(),box[1].lb(),box[1].ub(),"#D55E00[#CC79A7]");
 
             }
         }
@@ -124,7 +124,7 @@ void sivia_article(ibex::IntervalVector& map, ibex::Sep& Sep, double epsilon, ip
         else if (boxIn[0].is_empty() && boxIn[1].is_empty())
         {
             fig.set_current_layer("inner");
-            fig.draw_box(box,"colorBlindInStroke","colorBlindInFill");
+            fig.draw_box(box,"grey","white");
         }
         else
         {
@@ -139,7 +139,7 @@ void sivia_article(ibex::IntervalVector& map, ibex::Sep& Sep, double epsilon, ip
             else
             {
                 fig.set_current_layer("uncertain");
-                fig.draw_box(box,"colorBlindMaybeStroke","colorBlindMaybeFill");
+                fig.draw_box(box,"colorBlindInStroke","colorBlindInFill");
 
             }
         }
@@ -166,7 +166,7 @@ void sivia_article(ibex::IntervalVector& map, ibex::Ctc& Ctc, double epsilon, ip
         if (boxOut[0].is_empty() && boxOut[1].is_empty())
         {
             fig.set_current_layer("outer");
-            fig.draw_box(box,"blue","colorBlindOut");
+            fig.draw_box(box,"colorBlindOutStroke","colorBlindOutFill");
         }
         else
         {
@@ -181,13 +181,13 @@ void sivia_article(ibex::IntervalVector& map, ibex::Ctc& Ctc, double epsilon, ip
             else
             {
                 fig.set_current_layer("uncertain");
-                fig.draw_box(box,"gold","colorBlindMaybe");
+                fig.draw_box(box,"colorBlindInStroke","colorBlindInFill");
 
             }
         }
 
     }
-    cout << bisections << " bisectionss have been done" << endl;
+    cout << bisections << " bisections have been done" << endl;
     fig.set_current_layer("data");
 
 }
