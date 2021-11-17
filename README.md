@@ -56,7 +56,7 @@ If you prefer to run it (or do some tests) on your local machine, you will need 
 
 - pyIbex (version >= 1.9.2)
 - codac (version >=0.1.7)
-- vibes (version >=)
+- vibes (version >=0.2.2)
 
 On linux, you can install the three modules using the following command
 ```sh
@@ -65,5 +65,6 @@ python3 -m pip install codac
 
 #### Visualisation
 
-- There is only VIBes available. As in the C++ version, visualisation option 1, open the VIBes 
-  viewer **and then** run your python program to see your figure appearing
+- There is only [VIBes](https://enstabretagnerobotics.github.io/VIBES/) available. As in the C++ 
+  version, visualisation option 1, open the VIBes viewer **and then** run your python program to see
+  your figure appearing
