@@ -36,12 +36,12 @@ To compile most of these you will need the following:
 If you only want a "quick" live computation of the different test cases presented in the article 
 you can access these different repl. Just click on "run" on the webpage
 
-- [Test case 1 continuous]() (in progress)
-- [Test case 1 discrete]() (in progress)
-- [Test case 2 continuous]() (in progress)
-- [Test case 2 discrete]() (in progress)
-- [Test case 3 continuous]() (in progress)
-- [Test case 3 discrete]() (in progress)
+- [Test case 1 continuous](https://replit.com/@JulienDamers/Lie-symmetries-test-case-1-continuous)
+- [Test case 1 discrete](https://replit.com/@JulienDamers/Lie-symmetries-test-case-1-discrete)
+- [Test case 2 continuous](https://replit.com/@JulienDamers/Lie-symmetries-test-case-2-continuous)
+- [Test case 2 discrete](https://replit.com/@JulienDamers/Lie-symmetries-test-case-2-discrete)
+- [Test case 3 continuous](https://replit.com/@JulienDamers/Lie-symmetries-test-case-3-continuous)
+- [Test case 3 discrete](https://replit.com/@JulienDamers/Lie-symmetries-test-case-3-discrete)
 - [Test case 4 continuous]() (in progress)
 - [Test case 4 discrete]() (in progress)
 
