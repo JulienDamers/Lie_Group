@@ -42,8 +42,8 @@ you can access these different repl. Just click on "run" on the webpage
 - [Test case 2 discrete](https://replit.com/@JulienDamers/Lie-symmetries-test-case-2-discrete)
 - [Test case 3 continuous](https://replit.com/@JulienDamers/Lie-symmetries-test-case-3-continuous)
 - [Test case 3 discrete](https://replit.com/@JulienDamers/Lie-symmetries-test-case-3-discrete)
-- [Test case 4 continuous]() (in progress)
-- [Test case 4 discrete]() (in progress)
+- [Test case 4 continuous](https://replit.com/@JulienDamers/Lie-symmetries-test-case-4-continuous)
+- [Test case 4 discrete](https://replit.com/@JulienDamers/Lie-symmetries-test-case-4-discrete) 
 
 
 ### Local run
