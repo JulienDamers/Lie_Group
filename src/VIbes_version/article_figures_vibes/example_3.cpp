@@ -193,7 +193,7 @@ int main (int argc, char* argv[])
 {
     Tube::enable_syntheses();
 
-    //example_3_continuous_article();
+    example_3_continuous_article();
     example_3_discrete_article();
 
 
