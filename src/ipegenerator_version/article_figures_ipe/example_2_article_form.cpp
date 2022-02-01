@@ -30,7 +30,7 @@ void example_2_continuous_article()
     double epsilon = timestep;
 
     IntervalVector X0({{0,1},{0,1}});
-    IntervalVector x({{-1,10},{-1,3.2}});
+    IntervalVector x({{-1,10},{-1,4}});
     ibex::Function phi("x1","x2","t","(x1+t;x2+cos(x1)-cos(x1+t) )");
     SepFwdBwd fullSep(phi,X0);
     IntervalVector proj(1);
@@ -89,7 +89,7 @@ void example_2_discrete_article()
 
 
     IntervalVector X0({{0,1},{0,1}});
-    IntervalVector x({{-1,10},{-1,3.2}});
+    IntervalVector x({{-1,10},{-1,4}});
     ibex::Function phi("x1","x2","t","(x1+t;x2+cos(x1)-cos(x1+t) )");
 
     SepFwdBwd* fullSep;
