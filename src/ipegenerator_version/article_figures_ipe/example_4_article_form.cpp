@@ -166,7 +166,7 @@ int main(int argc, char* argv[])
 {
 
     Tube::enable_syntheses();
-    //example_4_continuous_article();
+    example_4_continuous_article();
     example_4_discrete_article();
 
 
