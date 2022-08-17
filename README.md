@@ -63,6 +63,16 @@ On linux, you can install the three modules using the following command
 python3 -m pip install codac
 ```
 
+#### Run an example
+
+Go to the Python folder of this repository and then run one of the example, for instance
+
+```sh
+python3 example_1_continuous.py
+```
+
+Change the python file name for the different examples
+
 #### Visualisation
 
 - There is only [VIBes](https://enstabretagnerobotics.github.io/VIBES/) available. As in the C++ 
