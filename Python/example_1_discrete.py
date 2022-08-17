@@ -1,5 +1,6 @@
 from codac import *
 from codac.unsupported import *
+from pysivia import pySIVIA
 
 import time
 
@@ -58,7 +59,8 @@ def example_1_discrete():
     backgound_box = IntervalVector(mapping)
     fig.axis_limits(backgound_box)
     start = time.time()
-    SIVIA(mapping,sep_proj,epsilon)
+    #SIVIA(mapping,sep_proj,epsilon)
+    pySIVIA(mapping,sep_proj,epsilon)
     stop = time.time()
     print("elapsed time test-case 1 discrete: ", stop - start, "s")
 

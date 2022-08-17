@@ -10,15 +10,14 @@
 #include "codac.h"
 #include "codac-rob.h"
 #include "codac-capd.h"
+#include "codac-unsupported.h"
 #include "tools.h"
 #include "chrono"
 
 
 using namespace std;
 using namespace codac;
-using namespace ibex;
 using namespace vibes;
-using namespace pyibex;
 using namespace capd;
 
 
@@ -142,14 +141,14 @@ void comparison_sivia_capd()
     for (size_t i=0;i<projection_times.size();i++)
     {
         IntervalVector *proj = new IntervalVector(1); // Defining interval to project
-        (*proj)[0] = Interval(projection_times[i],projection_times[i]);
+        (*proj)[0] = codac::Interval(projection_times[i],projection_times[i]);
         projections.push_back(proj);
         SepProj *sepProj = new SepProj(*fullSep,*proj,epsilon);
         seps.push_back(sepProj);
 
     }
     Array<Sep> ar_sep(seps);
-    SepUnion usep (ar_sep);
+    ibex::SepUnion usep (ar_sep);
 
     IntervalVector frame({{-1,10},{-1,4}});
     ipegenerator::Figure fig(frame,150,69);

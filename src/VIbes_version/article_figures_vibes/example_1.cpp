@@ -19,14 +19,14 @@ using namespace pyibex;
 
 void example_1_continous()
 {
+    beginDrawing();
     Interval domain(0,5); // Integration time of the reference, must be > proj
-    double timestep = 0.01; // Time step for the creation of the reference
-    IntervalVector x0({{0,0},{1,1}}); // Initial condition for reference
-    Function f("x1","x2","(1; -x2)"); // Evolution function to integrate
-    CtcLohner ctc_lohner(f);
-    TubeVector a(domain,timestep,f.image_dim());
-    a.set(x0,0.);
-    ctc_lohner.contract(a);
+    double timestep = 0.001; // Time step for the creation of the reference
+    IntervalVector x0({{0,0},{1,1}});
+    Function f("x1","x2","(1; -x2)");
+    TubeVector a = CAPD_integrateODE(domain,f,x0,timestep);
+    //a.enable_synthesis(codac::SynthesisMode::POLYNOMIAL);
+    a.enable_synthesis(codac::SynthesisMode::BINARY_TREE);
     cout << "Reference generated " << a << endl;
 
     IntervalVector X0({{0,1},{2,3}}); // The uncertain initial condition
@@ -42,7 +42,7 @@ void example_1_continous()
     proj[0] = Interval(-5,0); // Define the interval of time on which we want to integrate
     SepProj sepProj(fullSep,proj,epsilon); // Create the separator object
 
-    beginDrawing();
+
     // Visuals initialization
     VIBesFigMap fig_map("Example 1 continuous");
     fig_map.set_properties(50,50,800,464);
@@ -66,12 +66,15 @@ void example_1_continous()
 
 void example_1_discrete()
 {
+    beginDrawing();
     // Generate reference
     Interval domain(0,5);
-    double timestep = 0.01;
+    double timestep = 0.001;
     IntervalVector x0({{0,0},{1,1}});
     Function f("x1","x2","(1; -x2)");
     TubeVector a = CAPD_integrateODE(domain,f,x0,timestep);
+    //a.enable_synthesis(codac::SynthesisMode::POLYNOMIAL);
+    a.enable_synthesis(codac::SynthesisMode::BINARY_TREE);
     cout << "Reference generated " << a << endl;
 
 
@@ -104,7 +107,7 @@ void example_1_discrete()
     SepUnion usep (ar_sep); // Create the union of all separators
 
 
-    beginDrawing();
+
     // Visuals initialization
     VIBesFigMap fig_map("Example 1 discrete");
     fig_map.set_properties(50,50,800,464);

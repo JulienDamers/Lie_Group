@@ -19,7 +19,7 @@ using namespace pyibex;
 
 void example_3_continuous_article()
 {
-    Interval domain(0,5); // Integration time of the reference, must be > proj
+    Interval domain(0,6); // Integration time of the reference, must be > proj
     double timestep = 0.005; // Time step for the creation of the reference
     IntervalVector x0({{0.5,0.5},{0,0}}); // Initial condition for reference
     Function f("x","y","(-x^3-x*y^2+x-y; -y^3-x^2*y+x+y)"); // Evolution function to integrate
@@ -106,7 +106,7 @@ void example_3_continuous_article()
 
 void example_3_discrete_article()
 {
-    Interval domain(0,5); // Integration time of the reference, must be > proj
+    Interval domain(0,6); // Integration time of the reference, must be > proj
     double timestep = 0.001; // Time step for the creation of the reference
     IntervalVector x0({{0.5,0.5},{0,0}}); // Initial condition for reference
     Function f("x","y","(-x^3-x*y^2+x-y; -y^3-x^2*y+x+y)"); // Evolution function to integrate
@@ -189,7 +189,7 @@ void example_3_discrete_article()
     auto start = chrono::steady_clock::now();
     sivia_article(x,usep,epsilon,fig); // Perform the set inversion algorithm
     auto stop = chrono::steady_clock::now();
-    cout << "elapsed time for test-case 3continuous version: " << chrono::duration_cast<chrono::milliseconds>(stop - start).count() << " ms" <<endl;
+    cout << "elapsed time for test-case 3 discrete version: " << chrono::duration_cast<chrono::milliseconds>(stop - start).count() << " ms" <<endl;
 
     fig.set_color_fill("green");
     fig.set_color_stroke("green");
@@ -218,8 +218,8 @@ void example_3_discrete_article()
     fig.draw_text("{\\Large$\\mathbb{X}_6$}",0.9,0.65,false);
 
     fig.draw_axis("x_1","x_2");
-    fig.save_ipe("example_3_continuous.ipe");
-    fig.save_pdf("example_3_continuous.pdf");
+    fig.save_ipe("example_3_discrete.ipe");
+    fig.save_pdf("example_3_discrete.pdf");
     return;
 
 

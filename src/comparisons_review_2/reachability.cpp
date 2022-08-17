@@ -72,7 +72,7 @@ void reachability()
     cn_simplified_out_4.add(ctc_eval, {box_simp_out_4[0], w_simp_out_4, reference});
     cn_simplified_out_4.add(ctc_sub, {box_simp_out_4, w_simp_out_4, beta_simp_out_4});
     cn_simplified_out_4.add(ctc_phi, {box_simp_out_4, w_simp_out_4, beta_simp_out_4});
-    ctc_cn ctc_cn_out_4(&cn_simplified_out_4, &box_simp_out_4);
+    CtcCn ctc_cn_out_4(&cn_simplified_out_4, &box_simp_out_4);
     CtcStatic ctc_lie_static(ctc_cn_out_4,true);
 
 
@@ -139,7 +139,7 @@ void reachability()
     cout << "Flow* integration reachability processed in : "
          <<  6000 << " ms"
          << endl;
-    TubeVector x_flow_reachability("/home/julien-damers/Shared_Data/Perso/Thesis/CPP_WORKSPACE/SCHOLAR/Lie_Group/src/comparisons_review_2/flow_star_reachability.tube");
+    //TubeVector x_flow_reachability("/home/julien-damers/Shared_Data/Perso/Thesis/CPP_WORKSPACE/SCHOLAR/Lie_Group/src/comparisons_review_2/flow_star_reachability.tube");
 
 
 
@@ -172,7 +172,7 @@ void reachability()
     fig_4.set_color_fill("colorBlind1");
     fig_4.set_opacity(50);
     fig_4.set_color_type(ipegenerator::STROKE_AND_FILL);
-    fig_4.draw_tubeVector(&x_flow_reachability,"flow", 0, 1);
+    //fig_4.draw_tubeVector(&x_flow_reachability,"flow", 0, 1);
 
     // Drawing tube with Lie constraint
     codac::ColorMap colorMap_lie(codac::InterpolMode::RGB);

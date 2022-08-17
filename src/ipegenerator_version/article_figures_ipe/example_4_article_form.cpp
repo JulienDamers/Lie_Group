@@ -97,6 +97,7 @@ void example_4_discrete_article()
     fullSep = new lie_group_ex4_separator(&a,&X0);
 
     vector<IntervalVector*> projections{
+            new IntervalVector({{-6,6},{-0,-0}}),
             new IntervalVector({{-6,6},{-1,-1}}),
             new IntervalVector({{-6,6},{-2,-2}}),
             new IntervalVector({{-6,6},{-3,-3}}),
@@ -165,7 +166,7 @@ int main(int argc, char* argv[])
 {
 
     Tube::enable_syntheses();
-    example_4_continuous_article();
+    //example_4_continuous_article();
     example_4_discrete_article();
 
 

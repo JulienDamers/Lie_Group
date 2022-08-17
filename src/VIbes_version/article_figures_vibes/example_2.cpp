@@ -18,9 +18,10 @@ using namespace pyibex;
 
 void example_2_continuous()
 {
+    beginDrawing();
     // Generate reference
     Interval domain(0, 8);
-    double timestep = 0.01;
+    double timestep = 0.0001;
     IntervalVector x0({{0., 0.},
                        {0., 0.}});
     Function f("x", "y", "(1;sin(x))");
@@ -40,7 +41,7 @@ void example_2_continuous()
     proj[0] = Interval(-8,0);
     SepProj sepProj(fullSep,proj,epsilon);
 
-    beginDrawing();
+
 
     VIBesFigMap fig_map("Example 2 continuous");
     fig_map.set_properties(50,50,800,368);
@@ -64,8 +65,10 @@ void example_2_continuous()
 
 void example_2_discrete()
 {
+    beginDrawing();
+
     Interval domain(0, 8);
-    double timestep = 0.01;
+    double timestep = 0.0001;
     double epsilon = timestep;
     Function f("x", "y", "(1;sin(x))");
     CtcLohner ctc_lohner(f);
@@ -109,7 +112,7 @@ void example_2_discrete()
     SepUnion usep (ar_sep);
 
 
-    beginDrawing();
+
 
     VIBesFigMap fig_map("Example 2 discrete");
     fig_map.set_properties(50,50,800,368);
